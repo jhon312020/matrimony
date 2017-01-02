@@ -6,11 +6,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-     Caste List
+     Package List
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{asset('admin/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Caste List</li>
+      <li class="active">Package List</li>
     </ol>
   </section>
 
@@ -26,21 +26,25 @@
                 <tr>
                    <th>Sl No.</th>
                     <th>Name</th>
+                    <th>No. of days</th>
+                    <th>Price</th>
                     <th>Manage</th>
                   </tr>
               </thead>
               <tbody>
                 <?php
                   $count = 0;
-                  foreach ($castes as $caste) {
+                  foreach ($packages as $package) {
                     echo '<tr>';
                     echo '<td>'.++$count.'</td>';
-                    echo '<td>'.$caste->name.'</td>';
+                    echo '<td>'.$package->name.'</td>';
+                    echo '<td>'.$package->period.'</td>';
+                    echo '<td>'.$package->price.'</td>';
                     echo '<td>';
                  ?>
-                    <a href="{{asset('admin/editCaste/'.$caste->id)}}"><i class="fa fa-edit"></i> Edit</a>
+                    <a href="{{asset('admin/editPackage/'.$package->id)}}"><i class="fa fa-edit"></i> Edit</a>
                     &nbsp;&nbsp;
-                    <a href="javascript:;" class="delete_func" data-href="{{asset('admin/deleteCaste/'.$caste->id)}}"><i class="fa fa fa-trash-o"></i> Delete</a>
+                    <a href="javascript:;" class="delete_func" data-href="{{asset('admin/deletePackage/'.$package->id)}}"><i class="fa fa fa-trash-o"></i> Delete</a>
                   <?php
                     echo '</td>';
                     echo '</tr>';

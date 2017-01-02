@@ -7,11 +7,11 @@
 }
 
 .red {
-    border: 1px solid #c00!important
+    border: 1px solid #c00!important;
 }
 
 .error {
-    color: #c00
+    color: #c00;
 }
 
 .sublist {
@@ -27,4 +27,7 @@
 
 .canceled {
     color: #C00;
+}
+td.dataTables_empty {
+	text-align: center !important;
 }

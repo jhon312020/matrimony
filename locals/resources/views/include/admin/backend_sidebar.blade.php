@@ -97,6 +97,96 @@
           <li><a href="{{ asset('admin/viewCastes') }}"><i class="fa fa-circle-o"></i> Caste List</a></li>
         </ul>
       </li>
+      <?php
+        $active_class = '';
+        if (in_array($action,array('viewLocations','addLocation','editLocation'))) {
+          $active_class = 'active';
+        }
+      ?>
+      <li class="treeview {{$active_class}}">
+        <a href="javascript:;">
+          <i class="fa fa-map-marker"></i> <span>Location</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ asset('admin/addLocation') }}"><i class="fa fa-circle-o"></i> Add Location</a></li>
+          <li><a href="{{ asset('admin/viewLocations') }}"><i class="fa fa-circle-o"></i> Location List</a></li>
+        </ul>
+      </li>
+      <?php
+        $active_class = '';
+        if (in_array($action,array('viewMoonsigns','addMoonsign','editMoonsign'))) {
+          $active_class = 'active';
+        }
+      ?>
+      <li class="treeview {{$active_class}}">
+        <a href="javascript:;">
+          <i class="fa fa-book"></i> <span>Moon sign</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ asset('admin/addMoonsign') }}"><i class="fa fa-circle-o"></i> Add Moon sign</a></li>
+          <li><a href="{{ asset('admin/viewMoonsigns') }}"><i class="fa fa-circle-o"></i> Moon sign List</a></li>
+        </ul>
+      </li>
+      <?php
+        $active_class = '';
+        if (in_array($action,array('viewZodiacsigns','addZodiacsign','editZodiacsign'))) {
+          $active_class = 'active';
+        }
+      ?>
+      <li class="treeview {{$active_class}}">
+        <a href="javascript:;">
+          <i class="fa fa-book"></i> <span>Zodiac sign</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ asset('admin/addZodiacsign') }}"><i class="fa fa-circle-o"></i> Add Zodiac sign</a></li>
+          <li><a href="{{ asset('admin/viewZodiacsigns') }}"><i class="fa fa-circle-o"></i> Zodiac sign List</a></li>
+        </ul>
+      </li>
+      <?php
+        $active_class = '';
+        if (in_array($action,array('viewGraduations','addGraduation','editGraduation'))) {
+          $active_class = 'active';
+        }
+      ?>
+      <li class="treeview {{$active_class}}">
+        <a href="javascript:;">
+          <i class="fa fa-book"></i> <span>Graduation</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ asset('admin/addGraduation') }}"><i class="fa fa-circle-o"></i> Add Graduation</a></li>
+          <li><a href="{{ asset('admin/viewGraduations') }}"><i class="fa fa-circle-o"></i> Graduation List</a></li>
+        </ul>
+      </li>
+      <?php
+        $active_class = '';
+        if (in_array($action,array('viewPackage','addStatus','editStatus'))) {
+          $active_class = 'active';
+        }
+      ?>
+      <li class="treeview {{$active_class}}">
+        <a href="javascript:;">
+          <i class="fa fa-graduation-cap"></i> <span>Status</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ asset('admin/addStatus') }}"><i class="fa fa-circle-o"></i> Add Status</a></li>
+          <li><a href="{{ asset('admin/viewStatus') }}"><i class="fa fa-circle-o"></i> Status List</a></li>
+        </ul>
+      </li>
+      <?php
+        $active_class = '';
+        if (in_array($action,array('viewPackages','addPackage','editPackage'))) {
+          $active_class = 'active';
+        }
+      ?>
+      <li class="treeview {{$active_class}}">
+        <a href="javascript:;">
+          <i class="fa fa-money"></i> <span>Package</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ asset('admin/addPackage') }}"><i class="fa fa-circle-o"></i> Add Package</a></li>
+          <li><a href="{{ asset('admin/viewPackages') }}"><i class="fa fa-circle-o"></i> Package List</a></li>
+        </ul>
+      </li>
       <li class="treeview">
         <a href="javascript:;">
           <i class="fa fa-wrench fa-fw"></i> <span>Settings</span>
@@ -105,7 +195,7 @@
         <ul class="treeview-menu">
           <li><a href="{{URL::to('admin/add-settings')}}"><i class="fa fa-circle-o"></i> Settings</a></li>
         </ul>
-      </li> 
+      </li>
     </ul>
   </section>
   <!-- /.sidebar -->

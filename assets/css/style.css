@@ -1211,3 +1211,5 @@ filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#29b9e9', end
 .no-msg{width:100%;border:1px solid #e7e7e7;min-height:300px;padding-left:20px;font-size:20px;padding-top:20px;}
 .alert-success {color: #3C763D;background-color: #DFF0D8;border-color: #D6E9C6;width: 100% !important;}
 .email_show{margin-top:70px;}
+
+.dataTables_empty {text-align: center;}

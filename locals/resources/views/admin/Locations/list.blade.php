@@ -6,11 +6,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-     Caste List
+     Location List
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{asset('admin/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Caste List</li>
+      <li class="active">Location List</li>
     </ol>
   </section>
 
@@ -25,22 +25,26 @@
               <thead>
                 <tr>
                    <th>Sl No.</th>
-                    <th>Name</th>
+                    <th>Country</th>
+                    <th>State</th>
+                    <th>District</th>
                     <th>Manage</th>
                   </tr>
               </thead>
               <tbody>
                 <?php
                   $count = 0;
-                  foreach ($castes as $caste) {
+                  foreach ($locations as $location) {
                     echo '<tr>';
                     echo '<td>'.++$count.'</td>';
-                    echo '<td>'.$caste->name.'</td>';
+                    echo '<td>'.$location->country.'</td>';
+                    echo '<td>'.$location->state.'</td>';
+                    echo '<td>'.$location->district.'</td>';
                     echo '<td>';
                  ?>
-                    <a href="{{asset('admin/editCaste/'.$caste->id)}}"><i class="fa fa-edit"></i> Edit</a>
+                    <a href="{{asset('admin/editLocation/'.$location->id)}}"><i class="fa fa-edit"></i> Edit</a>
                     &nbsp;&nbsp;
-                    <a href="javascript:;" class="delete_func" data-href="{{asset('admin/deleteCaste/'.$caste->id)}}"><i class="fa fa fa-trash-o"></i> Delete</a>
+                    <a href="javascript:;" class="delete_func" data-href="{{asset('admin/deleteLocation/'.$location->id)}}"><i class="fa fa fa-trash-o"></i> Delete</a>
                   <?php
                     echo '</td>';
                     echo '</tr>';

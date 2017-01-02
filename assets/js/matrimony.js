@@ -31,6 +31,14 @@ $(document).ready(function(){
 		window.location.href= $(this).attr('data-href');
 	});
 
+	$('form').validate({
+		highlight: function(element) {
+            $(element).addClass('red');
+        },
+        unhighlight: function(element) {
+            $(element).removeClass('red');
+        }
+	});
     
 });
 

@@ -20,10 +20,11 @@ class AuthController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('auth:admin',['except'=>'authenticate']);
     }
 
     public function authenticate(Request $request) {
-        if (Auth::check() == true) {
+        if (Auth::guard('admin')->check() == true) {
             return redirect('admin/dashboard');
         }
         $errorMessage = '';

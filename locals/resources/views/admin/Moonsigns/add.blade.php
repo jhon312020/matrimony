@@ -6,11 +6,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Edit Caste
+      Add Moon Sign
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{asset('admin/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Edit Caste</li>
+      <li class="active">Add Moon Sign</li>
     </ol>
   </section>
   <!-- Main content -->
@@ -24,7 +24,7 @@
             <h3 class="box-title">Form</h3>
           </div><!-- /.box-header -->
           <!-- form start -->
-          @include('admin.Castes.form')
+          @include('admin.Moonsigns.form')
         </div><!-- /.box -->
       </div><!--/.col (left) -->
     </div>   <!-- /.row -->

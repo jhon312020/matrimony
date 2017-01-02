@@ -5,10 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use Validator;
+
 use App\User;
 use App\Models\Role;
 use App\Models\Star;
 use App\Models\Religion;
+use App\Models\Caste;
+use App\Models\Location;
+use App\Models\Moonsign;
+use App\Models\Zodiacsign;
+use App\Models\Graduation;
+use App\Models\Status;
+use App\Models\Package;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -24,7 +33,7 @@ class AdminController extends Controller
      */
     public function __construct(Request $request)
     {
-        //$this->middleware('auth');
+        $this->middleware('auth:admin');
     }
 
     function dashboard() {
@@ -254,7 +263,7 @@ class AdminController extends Controller
             $star->delete();
             return redirect('admin/viewStars')->with('success_message', 'Star has been deleted!');
         } else {
-            return redirect('admin/viewStars')->with('error_message', 'Sorry invalid user!');
+            return redirect('admin/viewStars')->with('error_message', 'Sorry invalid input!');
         }
     }
 
@@ -322,9 +331,562 @@ class AdminController extends Controller
             $row->delete();
             return redirect('admin/viewReligions')->with('success_message', 'Religion has been deleted!');
         } else {
-            return redirect('admin/viewReligions')->with('error_message', 'Sorry invalid user!');
+            return redirect('admin/viewReligions')->with('error_message', 'Sorry invalid input!');
         }
     }
 
+    function viewCastes(Request $request) {
+        $castes = Caste::all();
+        return view('admin.Castes.list', array('castes'=>$castes));
+    }
+
+    function addCaste(Request $request) {
+        if ($request->isMethod('post')) {
+            if ($request->has('name') && trim($request->name)) {
+                $name = trim($request->name);
+                $exists = Caste::where('name',$name)->count();
+                if (!$exists) {
+                    $caste = new Caste;
+                    $caste->name = $name;
+                    if ($caste->save()){
+                        return redirect('admin/viewCastes')->with('success_message','A new Caste has been added successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Caste already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill the name field!');
+            }
+        } else {
+            $request->name = '';
+        }
+        return view('admin.Castes.add', array('request'=>$request));
+    }
+
+    function editCaste(Request $request, $id) {
+        $caste = Caste::where('id',$id)->first();
+        if (!$caste) {
+            return response(404);
+        }
+        if ($request->isMethod('post')) {
+            if ($request->has('name') && trim($request->name)) {
+                $name = trim($request->name);
+                $exists = Caste::where('name',$name)->where('id','!=',$id)->count();
+                if (!$exists) {
+                    $caste->name = $name;
+                    if ($caste->save()){
+                        return redirect('admin/viewCastes')->with('success_message','Caste has been updated successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Caste already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill the name field!');
+            }
+        } else {
+            $request->name = $caste->name;
+        }
+        return view('admin.Castes.edit', array('request'=>$request));
+    }
+
+    function deleteCaste($id) {
+        $row = Caste::where('id',$id)->first();
+        if ($row) {
+            $row->delete();
+            return redirect('admin/viewCastes')->with('success_message', 'Caste has been deleted!');
+        } else {
+            return redirect('admin/viewCastes')->with('error_message', 'Sorry invalid input!');
+        }
+    }
+
+    function viewLocations(Request $request) {
+        $locations = Location::all();
+        return view('admin.Locations.list', array('locations'=>$locations));
+    }
+
+    function addLocation(Request $request) {
+        $requiredFields = array('country','state','district');
+        if ($request->isMethod('post')) {
+            if ($this->validateFields($request,$requiredFields)) {
+                $country = ucfirst(trim($request->country));
+                $state = ucfirst(trim($request->state));
+                $district = ucfirst(trim($request->district));
+                $exists = Location::where(['country'=>$country,'state'=>$state,'district'=>$district])->count();
+                if (!$exists) {
+                    $location = new Location;
+                    foreach ($requiredFields as $field) {
+                        $location->{$field} = $request->{$field};
+                    }
+                    if ($location->save()){
+                        return redirect('admin/viewLocations')->with('success_message','A new Location has been added successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Location already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill all the fields!');
+            }
+        } else {
+            foreach ($requiredFields as $field) {
+                $request->{$field} = '';
+            }
+        }
+        return view('admin.Locations.add', array('request'=>$request));
+    }
+
+    function editLocation(Request $request, $id) {
+        $requiredFields = array('country','state','district');
+        $location = Location::where('id',$id)->first();
+        if (!$location) {
+            return response(404);
+        }
+        if ($request->isMethod('post')) {
+            if ($this->validateFields($request,$requiredFields)) {
+                $country = ucfirst(trim($request->country));
+                $state = ucfirst(trim($request->state));
+                $district = ucfirst(trim($request->district));
+                $exists = Location::where(['country'=>$country,'state'=>$state,'district'=>$district])->where('id','!=',$id)->count();
+                if (!$exists) {
+                    foreach ($requiredFields as $field) {
+                        $location->{$field} = $request->{$field};
+                    }
+                    if ($location->save()){
+                        return redirect('admin/viewLocations')->with('success_message','Location has been updated successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Location already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill all the fields!');
+            }
+        } else {
+            foreach ($requiredFields as $field) {
+                $request->{$field} = $location->{$field};
+            }
+        }
+        return view('admin.Locations.edit', array('request'=>$request));
+    }
+
+    function deleteLocation($id) {
+        $row = Location::where('id',$id)->first();
+        if ($row) {
+            $row->delete();
+            return redirect('admin/viewLocations')->with('success_message', 'Location has been deleted!');
+        } else {
+            return redirect('admin/viewLocations')->with('error_message', 'Sorry invalid input!');
+        }
+    }
+
+    function viewMoonsigns(Request $request) {
+        $moonsigns = Moonsign::all();
+        return view('admin.Moonsigns.list', array('moonsigns'=>$moonsigns));
+    }
+
+    function addMoonsign(Request $request) {
+        $requiredFields = array('name');
+        if ($request->isMethod('post')) {
+            if ($this->validateFields($request,$requiredFields)) {
+                $name = trim($request->name);
+                $exists = Moonsign::where('name',$name)->count();
+                if (!$exists) {
+                    $moonsign = new Moonsign;
+                    foreach ($requiredFields as $field) {
+                        $moonsign->{$field} = $request->{$field};
+                    }
+                    if ($moonsign->save()){
+                        return redirect('admin/viewMoonsigns')->with('success_message','A new Moon sign has been added successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Moon sign already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill all the fields!');
+            }
+        } else {
+            foreach ($requiredFields as $field) {
+                $request->{$field} = '';
+            }
+        }
+        return view('admin.Moonsigns.add', array('request'=>$request));
+    }
+
+    function editMoonsign(Request $request, $id) {
+        $requiredFields = array('name');
+        $moonsign = Moonsign::where('id',$id)->first();
+        if (!$moonsign) {
+            return response(404);
+        }
+        if ($request->isMethod('post')) {
+            if ($this->validateFields($request,$requiredFields)) {
+                $name = trim($request->name);
+                $exists = Moonsign::where('name',$name)->where('id','!=',$id)->count();
+                if (!$exists) {
+                    foreach ($requiredFields as $field) {
+                        $moonsign->{$field} = $request->{$field};
+                    }
+                    if ($moonsign->save()){
+                        return redirect('admin/viewMoonsigns')->with('success_message','Moon sign has been updated successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Moon sign already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill all the fields!');
+            }
+        } else {
+            foreach ($requiredFields as $field) {
+                $request->{$field} = $moonsign->{$field};
+            }
+        }
+        return view('admin.Moonsigns.edit', array('request'=>$request));
+    }
+
+    function deleteMoonsign($id) {
+        $row = Moonsign::where('id',$id)->first();
+        if ($row) {
+            $row->delete();
+            return redirect('admin/viewMoonsigns')->with('success_message', 'Moon sign has been deleted!');
+        } else {
+            return redirect('admin/viewMoonsigns')->with('error_message', 'Sorry invalid input!');
+        }
+    }
+
+    function viewZodiacsigns(Request $request) {
+        $zodiacsigns = Zodiacsign::all();
+        return view('admin.Zodiacsigns.list', array('zodiacsigns'=>$zodiacsigns));
+    }
+
+    function addZodiacsign(Request $request) {
+        $requiredFields = array('name');
+        if ($request->isMethod('post')) {
+            if ($this->validateFields($request,$requiredFields)) {
+                $name = trim($request->name);
+                $exists = Zodiacsign::where('name',$name)->count();
+                if (!$exists) {
+                    $zodiacsign = new Zodiacsign;
+                    foreach ($requiredFields as $field) {
+                        $zodiacsign->{$field} = $request->{$field};
+                    }
+                    if ($zodiacsign->save()){
+                        return redirect('admin/viewZodiacsigns')->with('success_message','A new Zodiac sign has been added successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Zodiac sign already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill all the fields!');
+            }
+        } else {
+            foreach ($requiredFields as $field) {
+                $request->{$field} = '';
+            }
+        }
+        return view('admin.Zodiacsigns.add', array('request'=>$request));
+    }
+
+    function editZodiacsign(Request $request, $id) {
+        $requiredFields = array('name');
+        $zodiacsign = Zodiacsign::where('id',$id)->first();
+        if (!$zodiacsign) {
+            return response(404);
+        }
+        if ($request->isMethod('post')) {
+            if ($this->validateFields($request,$requiredFields)) {
+                $name = trim($request->name);
+                $exists = Zodiacsign::where('name',$name)->where('id','!=',$id)->count();
+                if (!$exists) {
+                    foreach ($requiredFields as $field) {
+                        $zodiacsign->{$field} = $request->{$field};
+                    }
+                    if ($zodiacsign->save()){
+                        return redirect('admin/viewZodiacsigns')->with('success_message','Zodiac sign has been updated successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Zodiac sign already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill all the fields!');
+            }
+        } else {
+            foreach ($requiredFields as $field) {
+                $request->{$field} = $zodiacsign->{$field};
+            }
+        }
+        return view('admin.Zodiacsigns.edit', array('request'=>$request));
+    }
+
+    function deleteZodiacsign($id) {
+        $row = Zodiacsign::where('id',$id)->first();
+        if ($row) {
+            $row->delete();
+            return redirect('admin/viewZodiacsigns')->with('success_message', 'Zodiac sign has been deleted!');
+        } else {
+            return redirect('admin/viewZodiacsigns')->with('error_message', 'Sorry invalid input!');
+        }
+    }
+
+    function viewGraduations(Request $request) {
+        $graduations = Graduation::all();
+        return view('admin.Graduations.list', array('graduations'=>$graduations));
+    }
+
+    function addGraduation(Request $request) {
+        if ($request->isMethod('post')) {
+            if ($request->has('name') && trim($request->name)) {
+                $name = trim($request->name);
+                $exists = Graduation::where('name',$name)->count();
+                if (!$exists) {
+                    $graduation = new Graduation;
+                    $graduation->name = $name;
+                    if ($graduation->save()){
+                        return redirect('admin/viewGraduations')->with('success_message','A new Graduation has been added successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Graduation already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill the name field!');
+            }
+        } else {
+            $request->name = '';
+        }
+        return view('admin.Graduations.add', array('request'=>$request));
+    }
+
+    function editGraduation(Request $request, $id) {
+        $graduation = Graduation::where('id',$id)->first();
+        if (!$graduation) {
+            return response(404);
+        }
+        if ($request->isMethod('post')) {
+            if ($request->has('name') && trim($request->name)) {
+                $name = trim($request->name);
+                $exists = Graduation::where('name',$name)->where('id','!=',$id)->count();
+                if (!$exists) {
+                    $graduation->name = $name;
+                    if ($graduation->save()){
+                        return redirect('admin/viewGraduations')->with('success_message','Graduation has been updated successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Graduation already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill the name field!');
+            }
+        } else {
+            $request->name = $graduation->name;
+        }
+        return view('admin.Graduations.edit', array('request'=>$request));
+    }
+
+    function deleteGraduation($id) {
+        $row = Graduation::where('id',$id)->first();
+        if ($row) {
+            $row->delete();
+            return redirect('admin/viewGraduations')->with('success_message', 'Graduation has been deleted!');
+        } else {
+            return redirect('admin/viewGraduations')->with('error_message', 'Sorry invalid input!');
+        }
+    }
+
+    function viewStatus(Request $request) {
+        $statuses = Status::all();
+        return view('admin.Status.list', array('statuses'=>$statuses));
+    }
+
+    function addStatus(Request $request) {
+        if ($request->isMethod('post')) {
+            if ($request->has('name') && trim($request->name)) {
+                $name = trim($request->name);
+                $exists = Status::where('name',$name)->count();
+                if (!$exists) {
+                    $Status = new Status;
+                    $Status->name = $name;
+                    if ($Status->save()){
+                        return redirect('admin/viewStatus')->with('success_message','A new Status has been added successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Status already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill the name field!');
+            }
+        } else {
+            $request->name = '';
+        }
+        return view('admin.Status.add', array('request'=>$request));
+    }
+
+    function editStatus(Request $request, $id) {
+        $Status = Status::where('id',$id)->first();
+        if (!$Status) {
+            return response(404);
+        }
+        if ($request->isMethod('post')) {
+            if ($request->has('name') && trim($request->name)) {
+                $name = trim($request->name);
+                $exists = Status::where('name',$name)->where('id','!=',$id)->count();
+                if (!$exists) {
+                    $Status->name = $name;
+                    if ($Status->save()){
+                        return redirect('admin/viewStatus')->with('success_message','Status has been updated successfully');
+                    } else {
+                        $request->session()->flash('error_message','Sorry something wrong try again later');
+                    }
+                } else {
+                    $request->session()->flash('error_message','Status already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill the name field!');
+            }
+        } else {
+            $request->name = $Status->name;
+        }
+        return view('admin.Status.edit', array('request'=>$request));
+    }
+
+    function deleteStatus($id) {
+        $row = Status::where('id',$id)->first();
+        if ($row) {
+            $row->delete();
+            return redirect('admin/viewStatus')->with('success_message', 'Status has been deleted!');
+        } else {
+            return redirect('admin/viewStatus')->with('error_message', 'Sorry invalid input!');
+        }
+    }
+
+    function viewPackages(Request $request) {
+        $packages = Package::all();
+        return view('admin.Packages.list', array('packages'=>$packages));
+    }
+
+    function addPackage(Request $request) {
+        $requiredFields = array('name','period','price');
+        if ($request->isMethod('post')) {
+            if ($this->validateFields($request,$requiredFields)) {
+                $name = trim($request->name);
+                $exists = Package::where('name',$name)->count();
+                if (!$exists) {
+                    $package = new Package;
+                    foreach ($requiredFields as $field) {
+                        $package->{$field} = $request->{$field};
+                    }
+                    $validator = $package->validateFields($request->input());
+                    if ($validator->passes()) {
+                        if ($package->save()){
+                            return redirect('admin/viewPackages')->with('success_message','A new Package has been added successfully');
+                        } else {
+                            $request->session()->flash('error_message','Sorry something wrong try again later');
+                        }    
+                    }  else {
+                        $errors = $validator->errors()->all();
+                        $request->session()->flash('error_message',$errors[0]);
+                    }
+                } else {
+                    $request->session()->flash('error_message','Package already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill all the fields!');
+            }
+        } else {
+            foreach ($requiredFields as $field) {
+                $request->{$field} = '';
+            }
+        }
+        return view('admin.Packages.add', array('request'=>$request));
+    }
+
+    function editPackage(Request $request, $id) {
+        $requiredFields = array('name','period','price');
+        $package = Package::where('id',$id)->first();
+        if (!$package) {
+            return response(404);
+        }
+        if ($request->isMethod('post')) {
+            if ($request->has('name') && trim($request->name)) {
+                $name = trim($request->name);
+                $exists = Package::where('name',$name)->where('id','!=',$id)->count();
+                if (!$exists) {
+                    foreach ($requiredFields as $field) {
+                        $package->{$field} = $request->{$field};
+                    }
+                    $validator = $package->validateFields($package->toArray());
+                    if ($validator->passes()) {
+                        if ($package->save()){
+                            return redirect('admin/viewPackages')->with('success_message','Package has been updated successfully');
+                        } else {
+                            $request->session()->flash('error_message','Sorry something wrong try again later');
+                        }
+                    } else {
+                        $errors = $validator->errors()->all();
+                        $request->session()->flash('error_message',$errors[0]);
+                    }
+                } else {
+                    $request->session()->flash('error_message','Package already exists!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill all the fields!');
+            }
+        } else {
+            foreach ($requiredFields as $field) {
+                $request->{$field} = $package->{$field};
+            }
+        }
+        return view('admin.Packages.edit', array('request'=>$request));
+    }
+
+    function deletePackage($id) {
+        $row = Package::where('id',$id)->first();
+        if ($row) {
+            $row->delete();
+            return redirect('admin/viewPackages')->with('success_message', 'Package has been deleted!');
+        } else {
+            return redirect('admin/viewPackages')->with('error_message', 'Sorry invalid input!');
+        }
+    }
+
+    function changePassword(Request $request) {
+        $requiredFields = array('old_password','password','confirm_password');
+        if ($request->isMethod('post')) {
+            if ($this->validateFields($request,$requiredFields)) {
+                if ($request->password == $request->confirm_password) {
+                    if (Hash::check($request->old_password,Auth::guard('admin')->user()->password)) {
+                        Auth::guard('admin')->user()->password = bcrypt($request->password);
+                        Auth::guard('admin')->user()->save();
+                        $request->session()->flash('success_message','Password has been updated');
+                    } else {
+                        $request->session()->flash('error_message','Old password does not match with current password');
+                    }
+                } else {
+                    $request->session()->flash('error_message','New password and confirm password does not match!');
+                }
+            } else {
+                $request->session()->flash('error_message','Kindly fill all the fields!');
+            }
+        }
+        return view('admin.adminChangePassword', array('request'=>$request));
+    }
 
 }
