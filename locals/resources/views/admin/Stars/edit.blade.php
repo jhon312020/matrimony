@@ -1,14 +1,16 @@
+@extends('layouts.admin_layout')
+
+@section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Add Education
+      Edit Star
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{URL::to('admin/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-    
-      <li class="active">Add Education</li>
+      <li><a href="{{asset('admin/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Edit Star</li>
     </ol>
   </section>
   <!-- Main content -->
@@ -22,24 +24,20 @@
             <h3 class="box-title">Form</h3>
           </div><!-- /.box-header -->
           <!-- form start -->
-          <form role="form" id="add_education">
+          <form role="form" method="post">
             <div class="box-body">
               <div class="form-group">
-                <label>Education</label>
-                <input type="text" class="form-control" name="education" placeholder="Enter Education"  required>
-              </div>
-              <div class="form-group">
-                <label>Occupation</label>
-                <input type="text" class="form-control" name="occupation" placeholder="Enter Occupation"  required>
+                <label>Star Name</label>
+                <input type="text" class="form-control" name="name" value="{{$request->name}}" id="star_name" placeholder="Enter Star name"  required>
               </div>
             </div><!-- /.box-body -->
             <div class="box-footer">
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
           </form>
-            <div class="message"></div>
         </div><!-- /.box -->
       </div><!--/.col (left) -->
     </div>   <!-- /.row -->
   </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+@endsection

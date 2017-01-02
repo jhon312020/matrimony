@@ -28,10 +28,20 @@ Route::post('/adminLogin/authenticate','AuthController@authenticate');
 
 Route::match(['get','post'],'/admin/addRole','AdminController@addRole');
 Route::get('/admin/viewRoles','AdminController@viewRoles');
-Route::match(['get','put'],'/admin/updateRole','AdminController@updateRole');
-Route::get('/admin/role/{role_id}','AdminController@deleteRole');
+Route::match(['get','post'],'/admin/editRole/{role_id}','AdminController@editRole');
+Route::get('/admin/deleteRole/{role_id}','AdminController@deleteRole');
 
 Route::match(['get','post'],'/admin/addUser','AdminController@addUser');
-Route::get('/admin/users','AdminController@viewUsers');
-Route::match(['get','put'],'/admin/updateUser','AdminController@updateUser');
-Route::get('/admin/user/{user_id}','AdminController@deleteUser');
+Route::get('/admin/viewUsers','AdminController@viewUsers');
+Route::match(['get','post'],'/admin/editUser/{id}','AdminController@editUser');
+Route::get('/admin/deleteUser/{id}','AdminController@deleteUser');
+
+Route::match(['get','post'],'/admin/addStar','AdminController@addStar');
+Route::get('/admin/viewStars','AdminController@viewStars');
+Route::match(['get','post'],'/admin/editStar/{id}','AdminController@editStar');
+Route::get('/admin/deleteStar/{id}','AdminController@deleteStar');
+
+Route::match(['get','post'],'/admin/addReligion','AdminController@addReligion');
+Route::get('/admin/viewReligions','AdminController@viewReligions');
+Route::match(['get','post'],'/admin/editReligion/{id}','AdminController@editReligion');
+Route::get('/admin/deleteReligion/{id}','AdminController@deleteReligion');

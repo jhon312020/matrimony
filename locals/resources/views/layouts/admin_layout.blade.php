@@ -54,7 +54,20 @@
   <script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
 
   <script src="{{asset('assets/js/matrimony.js')}}"></script>
+
   <input type="hidden" value="{{asset('/')}}" id="base_url" />
+  @if (session('success_message'))
+    <input type="hidden" value="{{ session('success_message') }}" id="success_status">
+  @endif
+  @if (session('error_message'))
+    <input type="hidden" value="{{ session('error_message') }}" id="error_status">
+  @endif
+
+  <?php
+    Request::session()->forget('success_message');
+    Request::session()->forget('error_message');
+  ?>
+
   <!-- Modal -->
   <div id="alertModal" class="modal fade" role="dialog">
     <div class="modal-dialog  modal-sm">
@@ -69,12 +82,33 @@
           <p>Some text in the modal.</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
         </div>
       </div>
 
     </div>
   </div>
 
+  <!-- Modal -->
+  <div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog  modal-sm">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Confirmation</h4>
+        </div>
+        <div class="modal-body">
+          <p>Do you want to continue?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="delete-modal-button">Yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
   </body>
 </html>

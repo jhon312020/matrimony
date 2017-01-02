@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+	if (typeof $('#success_status').val() != 'undefined') {
+		displayAlert('Success',$('#success_status').val());
+	}
+	if (typeof $('#error_status').val() != 'undefined') {
+		displayAlert('For Your Information ',$('#error_status').val());
+	}
+
 	$(".data-table").DataTable();
     
 	$.ajaxSetup({
@@ -8,28 +15,20 @@ $(document).ready(function(){
 	       }
 	});
 
-	$('#add_role').submit(function(){
-		if ($('#role_name').val().trim() == '') {
-			displayAlert('For your information','Kindly fill the role name');
+	$('#add_user').submit(function(){
+		if ($('#password').val() != $('#confirm_password').val()) {
+			displayAlert('For your information','Password and Confirm password does not match');
 			return false;
 		}
-		changeStatus(':submit','disable');
-		$.ajax({
-			url: $('#base_url').val()+'admin/addRole',
-			data:$('#add_role').serialize(),
-			async:false,
-			method : 'POST',
-			success: function(result){
-	        	if (result.error) {
-	        		displayAlert('For your information',result.error);
-	        	} else {
-	        		displayAlert('Success','Created the role successfully');
-	        		$('#add_role').trigger('reset');
-	        	}
-	        }
-	   	});
-		changeStatus(':submit','enable');
-		return false;
+		return true;
+	});
+
+	$(document).on('click','.delete_func', function(){
+		deleteModal($(this).attr('data-href'));
+	});
+
+	$('#delete-modal-button').click(function(){
+		window.location.href= $(this).attr('data-href');
 	});
 
     
@@ -49,4 +48,9 @@ function displayAlert(title, message) {
   $('#alertModal').find('.modal-title').html(title);
   $('#alertModal').find('.modal-body p').html(message);
   $('#alertModal').modal('show');
+}
+
+function deleteModal(href){
+	$('#deleteModal').find('#delete-modal-button').attr('data-href',href);
+  	$('#deleteModal').modal('show');
 }
