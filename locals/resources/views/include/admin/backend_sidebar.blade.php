@@ -150,7 +150,7 @@
       ?>
       <li class="treeview {{$active_class}}">
         <a href="javascript:;">
-          <i class="fa fa-book"></i> <span>Graduation</span> <i class="fa fa-angle-left pull-right"></i>
+          <i class="fa fa-graduation-cap"></i> <span>Graduation</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li><a href="{{ asset('admin/addGraduation') }}"><i class="fa fa-circle-o"></i> Add Graduation</a></li>
@@ -159,13 +159,13 @@
       </li>
       <?php
         $active_class = '';
-        if (in_array($action,array('viewPackage','addStatus','editStatus'))) {
+        if (in_array($action,array('viewStatus','addStatus','editStatus'))) {
           $active_class = 'active';
         }
       ?>
       <li class="treeview {{$active_class}}">
         <a href="javascript:;">
-          <i class="fa fa-graduation-cap"></i> <span>Status</span> <i class="fa fa-angle-left pull-right"></i>
+          <i class="fa fa-book"></i> <span>Status</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li><a href="{{ asset('admin/addStatus') }}"><i class="fa fa-circle-o"></i> Add Status</a></li>
@@ -187,13 +187,13 @@
           <li><a href="{{ asset('admin/viewPackages') }}"><i class="fa fa-circle-o"></i> Package List</a></li>
         </ul>
       </li>
-      <li class="treeview">
+      <li class="treeview {{($action == 'updateSettings')?'active':''}}">
         <a href="javascript:;">
           <i class="fa fa-wrench fa-fw"></i> <span>Settings</span>
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{URL::to('admin/add-settings')}}"><i class="fa fa-circle-o"></i> Settings</a></li>
+          <li><a href="{{asset('admin/updateSettings')}}"><i class="fa fa-circle-o"></i> Settings</a></li>
         </ul>
       </li>
     </ul>

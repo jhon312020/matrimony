@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="_token" content="{!! csrf_token() !!}"/>
     <title>Matrimony</title>
+    @if (session('settings')->fav_icon) 
+    <link rel="icon" type="image/png" href="{{asset('assets/settingsimages/'.session('settings')->fav_icon)}}">
+    @endif
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->

@@ -82,3 +82,5 @@ Route::match(['get','post'],'/admin/addPackage','AdminController@addPackage');
 Route::get('/admin/viewPackages','AdminController@viewPackages');
 Route::match(['get','post'],'/admin/editPackage/{id}','AdminController@editPackage');
 Route::get('/admin/deletePackage/{id}','AdminController@deletePackage');
+
+Route::match(['get','post'],'/admin/updateSettings','AdminController@updateSettings');

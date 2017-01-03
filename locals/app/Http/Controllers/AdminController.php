@@ -18,10 +18,12 @@ use App\Models\Zodiacsign;
 use App\Models\Graduation;
 use App\Models\Status;
 use App\Models\Package;
+use App\Models\Setting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\UploadedFile;
 
 class AdminController extends Controller
 {
@@ -33,6 +35,7 @@ class AdminController extends Controller
      */
     public function __construct(Request $request)
     {
+        parent::init();
         $this->middleware('auth:admin');
     }
 
@@ -887,6 +890,38 @@ class AdminController extends Controller
             }
         }
         return view('admin.adminChangePassword', array('request'=>$request));
+    }
+
+    function  updateSettings(Request $request){
+        $setting = Setting::where('id',1)->first();
+        $fields = array('title','religion','location','graduation','occupation','age','star','moon_sign','zodiac_sign','status','search_limit_without_login','smtp_host','smtp_username','smtp_password');
+        if ($request->isMethod('post')) {
+            foreach ($fields as $field) {
+                $setting->{$field} = $request->{$field};
+            }
+            if ($request->hasFile('image')) {
+                $path = 'assets'.DIRECTORY_SEPARATOR.'settingsimages'.DIRECTORY_SEPARATOR;
+                $newFileName = time().'_logo.'.$request->file('image')->extension();
+                $file_ext = $request->file('image')->extension();
+                if ($request->file('image')->move($path, $newFileName)) {
+                    $setting->image = $newFileName;
+                }
+            }
+
+            if ($request->hasFile('fav_icon')) {
+                $path = 'assets'.DIRECTORY_SEPARATOR.'settingsimages'.DIRECTORY_SEPARATOR;
+                $newFileName = time().'_favicon.'.$request->file('fav_icon')->extension();
+                $file_ext = $request->file('fav_icon')->extension();
+                if ($request->file('fav_icon')->move($path, $newFileName)) {
+                    $setting->fav_icon = $newFileName;
+                }
+            }
+
+            if ($setting->save()) {
+               $request->session()->flash('success_message','Settings has been updated successfully!');
+            }
+        }
+        return view('admin.updateSettings', array('setting'=>$setting));
     }
 
 }
