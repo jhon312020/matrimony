@@ -15,6 +15,8 @@ Route::get('/admin', function(){
 	return redirect('admin/login');
 });
 
+Route::get('/admin/dashboard','AdminController@dashboard');
+
 Route::get('/admin/login', function(){
 	if (Auth::guard('admin')->check() == true) {
         return redirect('admin/viewUsers');
@@ -84,3 +86,6 @@ Route::match(['get','post'],'/admin/editPackage/{id}','AdminController@editPacka
 Route::get('/admin/deletePackage/{id}','AdminController@deletePackage');
 
 Route::match(['get','post'],'/admin/updateSettings','AdminController@updateSettings');
+
+Route::get('/admin/memberList','AdminController@memberList');
+Route::post('/admin/setRating','AdminController@setRating');

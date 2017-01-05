@@ -23,11 +23,37 @@
     <ul class="sidebar-menu">
       <li class="header">MAIN NAVIGATION</li>
       <?php
+        $active_class = '';
+        if (in_array($action,array('dashboard'))) {
+          $active_class = 'active';
+        }
+      ?>
+      <li class="{{$active_class}}">
+        <a href="{{asset('admin/dashboard')}}">
+          <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+      </li> 
+      <?php
+        $active_class = '';
+        if (in_array($action,array('memberList'))) {
+          $active_class = 'active';
+        }
+      ?>
+      <li class="treeview {{$active_class}}">
+        <a href="javascript:;">
+          <i class="fa fa-book"></i> <span>Members</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ asset('admin/memberList') }}"><i class="fa fa-circle-o"></i> Member list</a></li>
+        </ul>
+      </li>
+      <?php
         $user_active_class = '';
         if (in_array($action,array('viewUsers','addUser','editUser'))) {
           $user_active_class = 'active';
         }
       ?>
+
       <li class="treeview {{$user_active_class}}">
         <a href="javascript:;">
           <i class="fa fa-user-plus"></i> <span>User Management</span> <i class="fa fa-angle-left pull-right"></i>

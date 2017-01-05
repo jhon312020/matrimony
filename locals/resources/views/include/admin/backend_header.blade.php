@@ -1,10 +1,12 @@
 <header class="main-header">
         <!-- Logo -->
-        <a href="dashboard" class="logo">
+        <a href="{{asset('admin/dashboard')}}" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>A</b>dmin</span>
+          <span class="logo-mini">Admin</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg">Admin </span>
+		  <span class="logo-lg">Matrimony Admin</span>
+		  
+          
            
         </a>
         <!-- Header Navbar: style can be found in header.less -->
@@ -38,7 +40,7 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="{{asset('admin/change-password')}}" class="btn btn-default btn-flat">Change Password</a>
+                      <a href="{{asset('admin/changePassword')}}" class="btn btn-default btn-flat">Change Password</a>
                     </div>
                     <div class="pull-right">
                       <a href="{{asset('admin/logout')}}" class="btn btn-default btn-flat">Sign out</a>

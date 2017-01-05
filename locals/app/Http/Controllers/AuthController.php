@@ -30,7 +30,7 @@ class AuthController extends Controller
         $errorMessage = '';
         if ($request->isMethod('post')) {
             if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'is_active'=>1])) {
-                return redirect('admin/addUser');
+                return redirect('admin/dashboard');
             } else {
                 $errorMessage = 'Invalid Username/Password';
             }

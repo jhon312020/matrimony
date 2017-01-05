@@ -58,6 +58,8 @@
 
   <script src="{{asset('assets/js/matrimony.js')}}"></script>
 
+  @yield('script')
+
   <input type="hidden" value="{{asset('/')}}" id="base_url" />
   @if (session('success_message'))
     <input type="hidden" value="{{ session('success_message') }}" id="success_status">

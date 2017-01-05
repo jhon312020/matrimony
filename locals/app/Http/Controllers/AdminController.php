@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use Validator;
+use Session;
 
 use App\User;
 use App\Models\Role;
@@ -19,6 +20,7 @@ use App\Models\Graduation;
 use App\Models\Status;
 use App\Models\Package;
 use App\Models\Setting;
+use App\Models\Member;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -40,7 +42,10 @@ class AdminController extends Controller
     }
 
     function dashboard() {
-        return view('admin.dashboard');
+        $data['userCount'] = User::count();
+        $data['packageCount'] = Package::count();
+        $data['memberCount'] = Member::count();
+        return view('admin.dashboard',$data);
     }
 
     function viewRoles(Request $request) {
@@ -894,34 +899,71 @@ class AdminController extends Controller
 
     function  updateSettings(Request $request){
         $setting = Setting::where('id',1)->first();
-        $fields = array('title','religion','location','graduation','occupation','age','star','moon_sign','zodiac_sign','status','search_limit_without_login','smtp_host','smtp_username','smtp_password');
+        $fields = array('title','religion','location','graduation','occupation','age','star','moon_sign','zodiac_sign','status','search_limit_without_login','smtp_host','smtp_username','smtp_password','contact_us_email');
+        $path = 'assets'.DIRECTORY_SEPARATOR.'settingsimages'.DIRECTORY_SEPARATOR;
         if ($request->isMethod('post')) {
             foreach ($fields as $field) {
                 $setting->{$field} = $request->{$field};
             }
+
+            if ($setting->smtp_password == '*****'){
+                unset($setting->smtp_password);
+            }
+
             if ($request->hasFile('image')) {
-                $path = 'assets'.DIRECTORY_SEPARATOR.'settingsimages'.DIRECTORY_SEPARATOR;
                 $newFileName = time().'_logo.'.$request->file('image')->extension();
                 $file_ext = $request->file('image')->extension();
                 if ($request->file('image')->move($path, $newFileName)) {
+                    $oldimage = $setting->image;
                     $setting->image = $newFileName;
                 }
             }
 
             if ($request->hasFile('fav_icon')) {
-                $path = 'assets'.DIRECTORY_SEPARATOR.'settingsimages'.DIRECTORY_SEPARATOR;
                 $newFileName = time().'_favicon.'.$request->file('fav_icon')->extension();
                 $file_ext = $request->file('fav_icon')->extension();
                 if ($request->file('fav_icon')->move($path, $newFileName)) {
+                    $oldfavicon = $setting->fav_icon;
                     $setting->fav_icon = $newFileName;
                 }
             }
-
             if ($setting->save()) {
-               $request->session()->flash('success_message','Settings has been updated successfully!');
+                $removeColumns = array('smtp_host','smtp_username','smtp_password');
+                foreach ($removeColumns as $column) {
+                    unset($setting->{$column});
+                }
+                Session::put('settings',$setting);
+                if (isset($oldimage) && file_exists($path.$oldimage)) {
+                    unlink($path.$oldimage);
+                }
+                if (isset($oldfavicon) && file_exists($path.$oldfavicon)) {
+                    unlink($path.$oldfavicon);
+                }
+                return redirect('admin/updateSettings')->with('success_message','Settings has been updated successfully!');
             }
         }
+        $setting->smtp_password = '*****';
         return view('admin.updateSettings', array('setting'=>$setting));
+    }
+
+    function memberList() {
+        $members = Member::all();
+        return view('admin.members.list',array('members'=>$members));
+    }
+
+    function setRating(Request $request) { 
+        $requiredFields = array('profile_rate','id');
+        if ($request->isMethod('post')) {
+            if ($this->validateFields($request,$requiredFields)) {
+                $member = Member::where('id',$request->id)->first();
+                if ($member) {
+                    $member->profile_rate = $request->profile_rate;
+                    $member->save();
+                    return response(200);
+                }
+            }
+        }
+        return response(200);
     }
 
 }

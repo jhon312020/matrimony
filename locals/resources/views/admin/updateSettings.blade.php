@@ -86,6 +86,11 @@
               </div>
 
               <div class="form-group">
+                <label>Contact us email address</label>
+                <input type="text" class="form-control" name="contact_us_email" value="{{$setting->contact_us_email}}" >
+              </div>
+
+              <div class="form-group">
                 <label>SMTP host</label>
                 <input type="text" class="form-control" name="smtp_host" value="{{$setting->smtp_host}}" >
               </div>
@@ -97,7 +102,7 @@
 
               <div class="form-group">
                 <label>SMTP password</label>
-                <input type="password" class="form-control" name="smtp_password" value="{{$setting->smtp_password}}" >
+                <input type="text" class="form-control" name="smtp_password" value="{{$setting->smtp_password}}" >
               </div>
 
             </div><!-- /.box-body -->
