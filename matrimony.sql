@@ -245,25 +245,49 @@ CREATE TABLE IF NOT EXISTS `packages` (
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(250) NOT NULL,
-  `religion` int(11) NOT NULL,
-  `place` int(11) NOT NULL,
-  `education` int(11) NOT NULL,
-  `occupation` int(11) NOT NULL,
-  `age` int(11) NOT NULL,
-  `search_without_login` varchar(500) NOT NULL,
+  `religion` tinyint(1) NOT NULL DEFAULT '1',
+  `location` tinyint(1) NOT NULL DEFAULT '1',
+  `graduation` tinyint(1) NOT NULL DEFAULT '1',
+  `occupation` tinyint(1) NOT NULL DEFAULT '1',
+  `age` tinyint(1) NOT NULL DEFAULT '1',
+  `star` tinyint(1) NOT NULL DEFAULT '1',
+  `moon_sign` tinyint(1) NOT NULL DEFAULT '1',
+  `zodiac_sign` tinyint(1) NOT NULL DEFAULT '1',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `search_limit_without_login` int(11) NOT NULL,
+  `contact_us_email` varchar(255) NOT NULL,
   `smtp_username` varchar(250) NOT NULL,
   `smtp_host` varchar(250) NOT NULL,
   `smtp_password` varchar(250) NOT NULL,
-  `currency` varchar(500) NOT NULL,
   `fav_icon` varchar(500) NOT NULL,
   `image` varchar(500) NOT NULL,
   `payment_gateway_username` varchar(500) NOT NULL,
   `payment_gateway_password` varchar(500) NOT NULL,
   `payment_gateway_signature` varchar(500) NOT NULL,
   `payment_gateway_testmode` varchar(500) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 
-INSERT INTO `settings` (`id`, `title`, `religion`, `place`, `education`, `occupation`, `age`, `search_without_login`, `smtp_username`, `smtp_host`, `smtp_password`, `currency`, `fav_icon`, `image`, `payment_gateway_username`, `payment_gateway_password`, `payment_gateway_signature`, `payment_gateway_testmode`) VALUES
-(1, 'Matrimony', 1, 1, 1, 1, 1, 'on', '', '', '', '$', '', '', '', '', '', '');
+INSERT INTO `settings` (`id`, `title`, `religion`, `location`, `graduation`, `occupation`, `age`, `star`, `moon_sign`, `zodiac_sign`, `status`, `search_limit_without_login`, `contact_us_email`, `smtp_username`, `smtp_host`, `smtp_password`, `fav_icon`, `image`, `payment_gateway_username`, `payment_gateway_password`, `payment_gateway_signature`, `payment_gateway_testmode`, `created_at`, `updated_at`) VALUES
+(1, 'Matrimony', 0, 0, 1, 1, 0, 1, 1, 0, 0, 12, 'jeeva@proisc.com', 'test@test.com', 'testhost', '9876', '1483539039_favicon.jpeg', '1483539039_logo.jpeg', '', '', '', '', '0000-00-00 00:00:00', '2017-01-05 04:38:18');
+
+
+CREATE TABLE IF NOT EXISTS `members` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `rand_id` varchar(20) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(500) NOT NULL,
+  `avatar` varchar(500) NOT NULL,
+  `gender` enum('Male','Female') NOT NULL DEFAULT 'Male',
+  `email` varchar(255) NOT NULL,
+  `phone_number` varchar(50) NOT NULL,
+  `date_of_birth` date NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `profile_rate` int(11) NOT NULL DEFAULT '20',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
