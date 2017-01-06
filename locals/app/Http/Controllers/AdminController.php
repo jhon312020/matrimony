@@ -948,7 +948,7 @@ class AdminController extends Controller
 
     function memberList() {
         $members = Member::all();
-        return view('admin.members.list',array('members'=>$members));
+        return view('admin.Members.list',array('members'=>$members));
     }
 
     function setRating(Request $request) { 
