@@ -29,9 +29,12 @@
   </head>
   <body class="hold-transition login-page">
     <div class="login-box">
-      <div class="login-logo">
+      <!-- <div class="login-logo">
           <span class="logo-lg"> <img src="{{asset('assets/images/logo.png')}}"/ ></span>
       </div><!-- /.login-logo -->
+      <div class="login-logo">
+          <span class="logo-lg" style="color:white"><h2>Matrimonial Site Logo</h2></span>
+      </div>
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
         <form role="form" id="ad_login" action="{{asset('adminLogin/authenticate')}}" method="POST">
