@@ -1,3 +1,7 @@
+https://mysql.ord1-1.websitesettings.com/index.php?db=727033_matrimonial&server=134
+Username : 727033_mmonial
+Password : Matri@cc17
+
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(500) NOT NULL,
@@ -291,3 +295,17 @@ CREATE TABLE IF NOT EXISTS `members` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+#17-Jan-2017
+
+CREATE TABLE IF NOT EXISTS `page-contents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(1000) NOT NULL,
+  `en_content` text NOT NULL,
+  `tl_content` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `members` ADD `remember_token` VARCHAR(500) NULL AFTER `profile_rate`;

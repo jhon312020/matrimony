@@ -11,17 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    //return view('welcome');
-    return redirect('/en/register');
+Route::group(array('prefix' => '{locale?}'), function() {
+	Route::post('register','FrontendController@register');
+	Route::get('search','FrontendController@search');
+	Route::get('register','FrontendController@viewRegister');
+	Route::match(['get','post'],'login','FrontendController@login');
+	Route::get('logout','FrontendController@logout');
+	Route::get('profile','FrontendController@profile');
 });
 
-Route::get('/{locale}', function () {
-    return view('welcome');
-});
-
-include("admin-routes.php");
-include("frontend-routes.php");
-
-
-//Route::get('{locale}/search','FrontEndController@search');

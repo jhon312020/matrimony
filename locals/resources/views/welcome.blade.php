@@ -37,8 +37,16 @@
     </head>
     <body>
         <div class="container">
+            @if(rtrim(Request::url(),'/') == rtrim(asset('/'),'/'))
+                <a href="{{Request::url().'/en'}}">EN</a>
+                <a href="{{Request::url().'/ta'}}">TA</a>
+            @else
+                <a href="{{str_replace('/'.Request::route('locale'),'/en', Request::url())}}">EN</a>
+                <a href="{{str_replace('/'.Request::route('locale'),'/ta', Request::url())}}">TA</a>
+            @endif
             <div class="content">
-                <div class="title">Laravel 5</div>
+                <a href="{{asset(App::getLocale().'/search')}}">Search</a> <br/>
+                <div class="title">{{trans('messages.Laravel 5')}}</div>
             </div>
         </div>
     </body>
