@@ -1,43 +1,38 @@
-<?php
-$id = \Session::get('id');
-?>
 <div class="footer">
-            <div class="container">
-               <div class="row">
-                  <div class="col-md-8">
-                      <?php
-                  if($id)
-                  {
-                  ?>
-                     <div class="footer_link"> 
-                             <a href="{{ URL::to('user/search') }}">Home</a>   |   
-                             <a href="{{ URL::to('user/success-stories') }}">Success Stories</a>  |  
-                             <a href="{{ URL::to('user/messages') }}">Messages</a>   |  
-                             <a href="{{ URL::to('user/contact/contact_view') }}">Contact us</a>  
-                     </div>
-                      <?php
-                  }
-					else
-					{
-						?>
-                      <div class="footer_link"> 
-                             <a href="{{ URL::to('user/login-failed') }}">Home</a>   |   
-                             <a href="{{ URL::to('user/login-failed') }}">Success Stories</a>  |  
-                             <a href="{{ URL::to('user/login-failed') }}">Messages</a>   |  
-                             <a href="{{ URL::to('user/login-failed') }}">Contact us</a>  
-                     </div>
-                       <?php
-					}
-					?>
-                     <div class="copyright">© 2015 Soulmate Pvt. Ltd | Powered By Techware Solution.</div>
-                  </div>
-                  <div class="col-md-4">
-                  		<ul class="footer-link2">
-                            <a href="http://fb.com"><li class="facebookicon"><img src="{{asset('assets/images/facebook.png')}}"/></li></a>
-                            <a href="http://mobile.twitter.com"><li class="twittericon"><img src="{{asset('assets/images/twitter.png')}}"/></li></a>
-                            <a href="http://plus.google.com"><li class="googleplusicon"><img src="{{asset('assets/images/google-plus.png')}}"/></li></a>
-                        </ul>
-                  </div>
-               </div>
-            </div>
-         </div>
+      <div class="container">
+        <div class="col-md-4 col_2">
+          <h4>About Us</h4>
+          <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."</p>
+        </div>
+        <div class="col-md-2 col_2">
+          <h4>Help & Support</h4>
+          <ul class="footer_links">
+            <li><a href="#">24x7 Live help</a></li>
+            <li><a href="#">Contact us</a></li>
+            <li><a href="#">Feedback</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 col_2">
+          <h4>Quick Links</h4>
+          <ul class="footer_links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms and Conditions</a></li>
+            <li><a href="#">Services</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 col_2">
+          <h4>Social</h4>
+          <ul class="footer_social">
+          <li><a href="#"><i class="fa fa-facebook fa1"> </i></a></li>
+          <li><a href="#"><i class="fa fa-twitter fa1"> </i></a></li>
+          <li><a href="#"><i class="fa fa-google-plus fa1"> </i></a></li>
+          <li><a href="#"><i class="fa fa-youtube fa1"> </i></a></li>
+          </ul>
+        </div>
+        <div class="clearfix"> </div>
+        <div class="copy">
+           <p>Copyright © 2015 Marital . All Rights Reserved  | Design by <a href="http://megamind.com/" target="_blank">Megamind</a> </p>
+          </div>
+      </div>
+</div>

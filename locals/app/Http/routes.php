@@ -13,12 +13,12 @@
 
 Route::get('/', function () {
     //return view('welcome');
-    return redirect('/en/register');
+    return redirect('/'.App::getLocale());
 });
 
-Route::get('/{locale}', function () {
+/*Route::get('/{locale}', function () {
     return view('welcome');
-});
+});*/
 
 include("admin-routes.php");
 include("frontend-routes.php");

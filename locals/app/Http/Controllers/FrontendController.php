@@ -23,6 +23,7 @@ use App\Models\Status;
 use App\Models\Package;
 use App\Models\Setting;
 use App\Models\Member;
+use App\Models\MemberProfile;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -45,7 +46,6 @@ class FrontendController extends Controller
     
     public function index(Request $request) {
       return view('frontend.index');
-      //return redirect($request->getLocale().'/index');
     }
 
     public function register(Request $request) {
@@ -62,6 +62,8 @@ class FrontendController extends Controller
                 $member->is_active = 1;
                 $validator = $member->validateFields($member->toArray());
                 if ($validator->passes()) {
+                    $member->save();
+                    $member->rand_id = 'MI-'.$member->id.'-'.$this->generateRandomString(5);
                     $member->save();
                     if (isset($member->id) && $member->id) {
                         $result = array('success'=>true,'message'=>trans('You have registered successfully. Kindly login with your username and password'));
@@ -109,7 +111,21 @@ class FrontendController extends Controller
 
     public function profile() {
         $user = Auth::guard('user')->user();
-        return view('frontend.profile',array('user'=>$user));
+        $profile = MemberProfile::where('member_id',$user->id)->first();
+        $statuses = Status::lists('name','id')->toArray();
+        if (!$profile) {
+            $profile = new MemberProfile;
+            $profile->member_id = $user->id;
+            $profile->save();
+        }
+        return view('frontend.profile',array('user'=>$user,'profile'=>$profile,'statuses'=>$statuses));
+    }
+
+    public function updateProfile(Request $request) {
+        $user = Auth::guard('user')->user();
+        $data = $request->input();
+        MemberProfile::where('member_id',$user->id)->update($data);
+        return new JsonResponse(array('success'=>true));
     }
 
 }

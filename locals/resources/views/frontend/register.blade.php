@@ -1,19 +1,20 @@
 @extends('layouts.front_end_form_layout')
 
 @section('content')
+<div class="grid_3">
+  <div class="container">
    <div class="breadcrumb1">
      <ul>
-        <a href="javascript:;"><i class="fa fa-home home_1"></i></a>
+        <a href="{{asset('/'.App::getLocale())}}"><i class="fa fa-home home_1"></i></a>
         <span class="divider">&nbsp;|&nbsp;</span>
         <li class="current-page">Register</li>
      </ul>
    </div>
    <div class="services">
       <div class="col-sm-6 login_left">
-       <form onsubmit="return false;" id="registration-form" action="{{asset(Request::getLocale().'/register')}}">
-        <div class="form-group">
-          <div id="result_message"></div>
-        </div>
+       <form onsubmit="return false;" id="registration-form" action="{{asset(App::getLocale().'/register')}}">
+        <div id="result_message"></div>
+        <i class="fa fa-spinner fa-spin" style="font-size:24px;color:orange;display:none;" id="registrtion-loader"></i>
         <div class="form-group">
           <label for="edit-name">Username <span class="form-required" title="This field is required.">*</span></label>
           <input type="text" id="username" name="username" value="" size="60" maxlength="60" class="form-text required">
@@ -93,7 +94,8 @@
          <textarea class="form-control bio" placeholder="" rows="3"></textarea>
         </div> -->
         <div class="form-actions">
-          <input type="submit" name="op" value="Submit" class="btn_1 submit">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+          <input type="button" name="op" value="Submit" class="btn_1 submit" id="registration-submit">
         </div>
      </form>
     </div>
@@ -103,40 +105,11 @@
         <li><a href="#" class="twitter" title="Twitter"><i class="fa fa-boxed fa-fw fa-twitter"></i> Tweet</a></li>
         <li><a href="#" class="google" title="Google"><i class="fa fa-boxed fa-fw fa-google-plus"></i> Share on Google+</a></li>
         <li><a href="#" class="linkedin" title="Linkedin"><i class="fa fa-boxed fa-fw fa-linkedin"></i> Share on LinkedIn</a></li>
-        <li><a href="#" class="mail" title="Email"><i class="fa fa-boxed fa-fw fa-envelope-o"></i> E-mail</a></li>
-     </ul> -->
+        <li><a href="#" class="mail" title="Email"><i class="fa fa-boxed fa-fw fa-envelope-o"></i> E-mail</a></li> -->
+     </ul>
     </div>
     <div class="clearfix"> </div>
    </div>
-   <script type="text/javascript">
-     $(document).ready(function(){
-        $('#registration-form').submit(function() {
-          data = {
-            username : $('#username').val(),
-            password : $('#password').val(),
-            gender : $('input[name=gender]:checked').val(),
-            email : $('#email').val(),
-            phone_number : $('#phone_number').val(),
-            date_of_birth : $('#selected_month').val()+'/'+$('#selected_date').val()+'/'+$('#selected_year').val()
-          };
-          $.ajax({
-            method: "POST",
-            data : data,
-            url : $('#registration-form').attr('action'),
-            success : function(result) {
-              if (result.success == true) {
-                $('#result_message').removeClass('alert alert-danger');
-                $('#result_message').addClass('alert alert-success');
-                $('#result_message').html(result.message);
-              } else {
-                $('#result_message').removeClass('alert alert-success');
-                $('#result_message').addClass('alert alert-danger');
-                $('#result_message').html(result.message);
-              }
-              window.scrollTo(0, 0);
-            }
-          });
-        });
-     });
-   </script>
+  </div>
+</div>
 @endsection

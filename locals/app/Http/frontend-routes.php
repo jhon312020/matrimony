@@ -20,5 +20,6 @@ Route::group(array('prefix' => '{locale?}'), function() {
   Route::match(['get','post'],'login','FrontendController@login');
   Route::get('logout','FrontendController@logout');
   Route::get('profile','FrontendController@profile');
+  Route::post('updateProfile','FrontendController@updateProfile');
 });
 

@@ -1,6 +1,7 @@
 https://mysql.ord1-1.websitesettings.com/index.php?db=727033_matrimonial&server=134
 Username : 727033_mmonial
 Password : Matri@cc17
+host : 140
 
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -294,7 +295,7 @@ CREATE TABLE IF NOT EXISTS `members` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 #17-Jan-2017
 
@@ -306,6 +307,65 @@ CREATE TABLE IF NOT EXISTS `page-contents` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `members` ADD `remember_token` VARCHAR(500) NULL AFTER `profile_rate`;
+
+#23-Jan-2017
+
+CREATE TABLE IF NOT EXISTS `member_profile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `member_id` int(11) NOT NULL,
+  `name` varchar(500) NOT NULL,
+  `religion_id` int(11) NOT NULL,
+  `caste_id` int(11) NOT NULL,
+  `height` varchar(11) NOT NULL,
+  `weight` varchar(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `children` varchar(50) NOT NULL,
+  `body_type` varchar(50) NOT NULL,
+  `complexion` varchar(50) NOT NULL,
+  `mother_tongue` varchar(55) NOT NULL,
+  `graduation_id` int(11) NOT NULL,
+  `other_education` varchar(500) NOT NULL,
+  `occupation` TEXT NOT NULL,
+  `annual_income` varchar(500) NOT NULL,
+  `hobbies` TEXT NOT NULL,
+  `family_values` varchar(100) NOT NULL,
+  `family_type` varchar(505) NOT NULL,
+  `employedin` varchar(50) NOT NULL,
+  `physical_status` varchar(50) NOT NULL,
+  `district_id` varchar(50) NOT NULL,
+  `package_payment` int(11) NOT NULL,
+  `smoking_habits` varchar(500) NOT NULL,
+  `drinking_habit` varchar(500) NOT NULL,
+  `star_id` int(11) NOT NULL,
+  `moonsign_id` varchar(500) NOT NULL,
+  `familystatus` varchar(50) NOT NULL,
+  `eating_habits` varchar(500) NOT NULL,
+  `zodiacsign_id` varchar(500) NOT NULL,
+  `country` varchar(500) NOT NULL,
+  `state` varchar(500) NOT NULL,
+  `district` varchar(500) NOT NULL,
+  `college` varchar(500) NOT NULL,
+  `education_in_detail` TEXT NOT NULL,
+  `occupation_in_detail` TEXT NOT NULL,
+  `fathers_status` TEXT NOT NULL,
+  `mothers_status` TEXT NOT NULL,
+  `no_of_brothers` int(11) NOT NULL,
+  `brothers_married` varchar(10) NOT NULL,
+  `no_of_sisters` int(11) NOT NULL,
+  `sisters_married` varchar(10) NOT NULL,
+  `about_my_family` TEXT NOT NULL,
+  `facebook` varchar(500) DEFAULT NULL,
+  `twitter` varchar(500) DEFAULT NULL,
+  `google_plus` varchar(500) DEFAULT NULL,
+  `upgrade_status` int(11) NOT NULL,
+  `profile_strength` varchar(500) NOT NULL,
+  `user_visibility` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `member_profile` ADD `about_myself` TEXT NOT NULL AFTER `user_visibility`, ADD `created_at` DATETIME NOT NULL AFTER `about_myself`, ADD `updated_at` DATETIME NOT NULL AFTER `created_at`;
+
+ALTER TABLE `member_profile` CHANGE `status` `status_id` INT(11) NOT NULL;
