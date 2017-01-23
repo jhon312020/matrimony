@@ -17,20 +17,20 @@ class Controller extends BaseController
 
     function init()
     {
-    	$settings = Setting::where('id',1)->first();
-    	$removeColumns = array('smtp_host','smtp_username','smtp_password');
-    	foreach ($removeColumns as $column) {
-    		unset($settings->{$column});
-    	}
+      $settings = Setting::where('id',1)->first();
+      $removeColumns = array('smtp_host','smtp_username','smtp_password');
+      foreach ($removeColumns as $column) {
+        unset($settings->{$column});
+      }
         Session::put('settings',$settings);
     }
 
     function validateFields($request,$fields) {
-    	foreach ($fields as $field) {
-    		if (($request->has($field) && trim($request->$field)) == false) {
-    			return false;
-    		}
-    	}
-    	return true;
+      foreach ($fields as $field) {
+        if (($request->has($field) && trim($request->$field)) == false) {
+          return false;
+        }
+      }
+      return true;
     }
 }

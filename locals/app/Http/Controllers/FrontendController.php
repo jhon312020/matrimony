@@ -33,15 +33,19 @@ class FrontendController extends Controller
 {
 
     /**
-     * Create instances of the reservation controller
+     * Create instances of the Frontend controller
      *
      * @return void
      */
-    public function __construct(Request $request)
-    {
+    public function __construct(Request $request) {
         parent::init();
         $this->middleware('locale');
-        $this->middleware('auth:user',['except'=>['viewRegister','register','login','logout']]);
+        $this->middleware('auth:user',['except'=>['index', 'viewRegister','register','login','logout']]);
+    }
+    
+    public function index(Request $request) {
+      return view('frontend.index');
+      //return redirect($request->getLocale().'/index');
     }
 
     public function register(Request $request) {

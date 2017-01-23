@@ -12,11 +12,13 @@
 */
 
 Route::group(array('prefix' => '{locale?}'), function() {
-	Route::post('register','FrontendController@register');
-	Route::get('search','FrontendController@search');
-	Route::get('register','FrontendController@viewRegister');
-	Route::match(['get','post'],'login','FrontendController@login');
-	Route::get('logout','FrontendController@logout');
-	Route::get('profile','FrontendController@profile');
+  Route::get('/','FrontendController@index');
+  Route::get('index','FrontendController@index');
+  Route::post('register','FrontendController@register');
+  Route::get('search','FrontendController@search');
+  Route::get('register','FrontendController@viewRegister');
+  Route::match(['get','post'],'login','FrontendController@login');
+  Route::get('logout','FrontendController@logout');
+  Route::get('profile','FrontendController@profile');
 });
 

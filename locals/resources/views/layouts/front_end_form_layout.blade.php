@@ -56,7 +56,7 @@ $(document).ready(function(){
          </ul>
              </nav>
            </div>
-           <a class="brand" href="index.html"><img src="{{asset('assets/front-end/images/logo.png')}}" alt="logo"></a>
+           <a class="brand" href="{{asset(Request::getLocale())}}"><img src="{{asset('assets/front-end/images/logo.png')}}" alt="logo"></a>
            <div class="pull-right">
             <nav class="navbar nav_bottom" role="navigation">
  
@@ -73,39 +73,39 @@ $(document).ready(function(){
        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
             <ul class="nav navbar-nav nav_1">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="{{asset(Request::getLocale())}}">Home</a></li>
+                <li><a href="#">About</a></li>
             <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Matches<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="matches.html">New Matches</a></li>
-                    <li><a href="viewed-profile.html">Who Viewed my Profile</a></li>
-                    <li><a href="viewed-not_contacted.html">Viewed & not Contacted</a></li>
-                    <li><a href="members.html">Premium Members</a></li>
-                    <li><a href="shortlisted.html">Shortlisted Profile</a></li>
+                    <li><a href="#">New Matches</a></li>
+                    <li><a href="#">Who Viewed my Profile</a></li>
+                    <li><a href="#">Viewed & not Contacted</a></li>
+                    <li><a href="#">Premium Members</a></li>
+                    <li><a href="#">Shortlisted Profile</a></li>
                   </ul>
                 </li>
           <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="search.html">Regular Search</a></li>
-                    <li><a href="profile.html">Recently Viewed Profiles</a></li>
-                    <li><a href="search-id.html">Search By Profile ID</a></li>
-                    <li><a href="faq.html">Faq</a></li>
-                    <li><a href="shortcodes.html">Shortcodes</a></li>
+                    <li><a href="#">Regular Search</a></li>
+                    <li><a href="#">Recently Viewed Profiles</a></li>
+                    <li><a href="#">Search By Profile ID</a></li>
+                    <li><a href="#">Faq</a></li>
+                    <li><a href="#">Shortcodes</a></li>
                   </ul>
                 </li>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Messages<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="inbox.html">Inbox</a></li>
-                    <li><a href="inbox.html">New</a></li>
-                    <li><a href="inbox.html">Accepted</a></li>
-                    <li><a href="sent.html">Sent</a></li>
-                    <li><a href="upgrade.html">Upgrade</a></li>
+                    <li><a href="#">Inbox</a></li>
+                    <li><a href="#">New</a></li>
+                    <li><a href="#">Accepted</a></li>
+                    <li><a href="#">Sent</a></li>
+                    <li><a href="#">Upgrade</a></li>
                   </ul>
                 </li>
-                <li class="last"><a href="contact.html">Contacts</a></li>
+                <li class="last"><a href="#">Contacts</a></li>
             </ul>
          </div><!-- /.navbar-collapse -->
         </nav>
@@ -120,9 +120,9 @@ $(document).ready(function(){
     @yield('content')
   </div>
 </div>
-<div class="map">
+<!-- <div class="map">
   <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3150859.767904157!2d-96.62081048651531!3d39.536794757966845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1408111832978"> </iframe>
-</div>
+</div> -->
 <div class="footer">
       <div class="container">
         <div class="col-md-4 col_2">
@@ -133,17 +133,17 @@ $(document).ready(function(){
           <h4>Help & Support</h4>
           <ul class="footer_links">
             <li><a href="#">24x7 Live help</a></li>
-            <li><a href="contact.html">Contact us</a></li>
+            <li><a href="#">Contact us</a></li>
             <li><a href="#">Feedback</a></li>
-            <li><a href="faq.html">FAQs</a></li>
+            <li><a href="#">FAQs</a></li>
           </ul>
         </div>
         <div class="col-md-2 col_2">
           <h4>Quick Links</h4>
           <ul class="footer_links">
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms and Conditions</a></li>
-            <li><a href="services.html">Services</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms and Conditions</a></li>
+            <li><a href="#">Services</a></li>
           </ul>
         </div>
         <div class="col-md-2 col_2">
