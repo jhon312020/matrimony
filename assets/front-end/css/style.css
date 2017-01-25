@@ -3525,3 +3525,10 @@ ul.feature_list.feature_list1 {
     margin-bottom: 1em;
 }
 }
+
+select, .select-block1 select, input[type=text], input[type=password], input[type=email], textarea{
+  border:solid 1px #ffa417 !important;
+}
+/*input[type=text], input[type=password], input[type=email] {
+  padding-left:8px;
+}*/

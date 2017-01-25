@@ -118,7 +118,23 @@ class FrontendController extends Controller
             $profile->member_id = $user->id;
             $profile->save();
         }
-        return view('frontend.profile',array('user'=>$user,'profile'=>$profile,'statuses'=>$statuses));
+        $data['user'] = $user;
+        $data['profile'] = $profile;
+        $data['statuses'] = $statuses;
+        $data['religions'] = Religion::lists('name','id')->toArray();
+        $data['castes'] = Caste::lists('name','id')->toArray();
+        $data['stars'] = Star::lists('name','id')->toArray();
+        $data['moonsigns'] = Moonsign::lists('name','id')->toArray();
+        $data['zodiacsigns'] = Zodiacsign::lists('name','id')->toArray();
+        $data['educations'] = Graduation::lists('name','id')->toArray();
+        $data['body_types'] = ['Slim','Athletic','Average','Heavy'];
+        $data['complexions'] = ['Very Fair','Fair','Wheatish','Wheatish Brown','Dark'];
+        $data['physical_status'] = ['Normal','Handicapped'];
+        $data['drinking_habits'] = ['Yes','No','Drinks Socially'];
+        $data['smoking_habits'] = ['Yes','No'];
+        $data['eating_habits'] = ['Vegetarian','Non Vegitarian','Eggetarian'];
+        $data['mother_tongue'] = ['Tamil','Malayalam','Hindhi','Bengali','Telugu','Marathi','Urdu','Gujarati','Kannada','Odia',' Punjabi','Assamese','Maithili','BhilBhilodi','Santali','Kashmiri','Nepali','Gondi','Sindhi','Konkani','Dogri','Khandeshi','Kurukh','Tulu','MeiteManipuri','Bodo','Khasi','Mundari','English'];
+        return view('frontend.profile',$data);
     }
 
     public function updateProfile(Request $request) {
