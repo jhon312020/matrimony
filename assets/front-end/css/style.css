@@ -3529,6 +3529,9 @@ ul.feature_list.feature_list1 {
 select, .select-block1 select, input[type=text], input[type=password], input[type=email], textarea{
   border:solid 1px #ffa417 !important;
 }
-/*input[type=text], input[type=password], input[type=email] {
-  padding-left:8px;
-}*/
+.image-upload-overlay {
+  position:absolute;width:200px;vertical-align:center;left:0px;bottom:0px;text-align:center;cursor:pointer;background:rgba(0, 0, 0, 0.3);
+}
+.image-upload-overlay:hover a {
+  color:#ffa417 !important;
+}

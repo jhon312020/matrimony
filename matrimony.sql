@@ -299,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `members` (
 
 #17-Jan-2017
 
-CREATE TABLE IF NOT EXISTS `page-contents` (
+CREATE TABLE IF NOT EXISTS `page_contents` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(1000) NOT NULL,
   `en_content` text NOT NULL,
@@ -369,3 +369,62 @@ CREATE TABLE IF NOT EXISTS `member_profile` (
 ALTER TABLE `member_profile` ADD `about_myself` TEXT NOT NULL AFTER `user_visibility`, ADD `created_at` DATETIME NOT NULL AFTER `about_myself`, ADD `updated_at` DATETIME NOT NULL AFTER `created_at`;
 
 ALTER TABLE `member_profile` CHANGE `status` `status_id` INT(11) NOT NULL;
+
+# 28-Jan-2017
+ALTER TABLE `member_profile` ADD `city` VARCHAR(255) NOT NULL AFTER `district`;
+
+#30-Jan-2017
+ALTER TABLE `member_profile`
+  DROP `brothers_married`,
+  DROP `sisters_married`;
+
+ALTER TABLE `member_profil e` ADD `country_of_residency` VARCHAR(255) NOT NULL AFTER `country`;
+
+ALTER TABLE `member_profile` ADD `partner_preference` TEXT NOT NULL AFTER `about_myself`;
+
+ALTER TABLE `member_profile` DROP `district_id`;
+
+DROP VIEW IF EXISTS `membersview`;
+CREATE ALGORITHM=UNDEFINED VIEW `membersview` AS 
+select `member_profile`.*,
+       `members`.`rand_id`,
+       `members`.`username`,
+       `members`.`avatar`,
+       `members`.`gender`,
+       `members`.`email`,
+       `members`.`phone_number`,
+       `members`.`date_of_birth`,
+       `members`.`is_active`,
+       `members`.`profile_rate`,
+       TIMESTAMPDIFF(YEAR,`members`.`date_of_birth`,CURDATE()) as `age`,
+       `religions`.`name` as `religion`,
+       `stars`.`name` as `star`,
+       `moonsigns`.`name` as `moonsign`,
+       `zodiacsigns`.`name` as `zodiacsign`,
+       `castes`.`name` as `caste`,
+       `status`.`name` as `status`,
+       `graduations`.`name` as `graduation`
+       from `member_profile` 
+       LEFT JOIN `members` on `members`.`id` = `member_profile`.`member_id`
+       LEFT JOIN `religions` on `religions`.`id` = `member_profile`.`religion_id`
+       LEFT JOIN `stars` on `stars`.`id` = `member_profile`.`star_id`
+       LEFT JOIN `moonsigns` on `moonsigns`.`id` = `member_profile`.`moonsign_id`
+       LEFT JOIN `zodiacsigns` on `zodiacsigns`.`id` = `member_profile`.`zodiacsign_id`
+       LEFT JOIN `castes` on `castes`.`id` = `member_profile`.`caste_id`
+       LEFT JOIN `status` on `status`.`id` = `member_profile`.`status_id`
+       LEFT JOIN `graduations` on `graduations`.`id` = `member_profile`.`graduation_id`;
+
+CREATE TABLE IF NOT EXISTS `page_contents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(1000) CHARACTER SET latin1 NOT NULL,
+  `en_content` text NOT NULL,
+  `ta_content` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+
+INSERT INTO `page_contents` (`id`, `name`, `en_content`, `ta_content`, `created_at`, `updated_at`) VALUES
+(1, 'aboutUs', '<p>about us english content</p>\r\n', '<p><p>about us tamil content</p>', '2017-02-02 00:00:00', '2017-02-02 11:23:06'),
+(2, 'contactus', '<p>contact us english content</p>\r\n', '<p>contact us tamil content</p>\r\n', '2017-02-15 00:00:00', '2017-02-01 13:56:06');

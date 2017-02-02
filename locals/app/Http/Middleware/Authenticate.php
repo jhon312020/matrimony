@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +25,7 @@ class Authenticate
                 if ($guard == 'admin') {
                     return redirect()->guest('admin/login');    
                 } else {
-                    return redirect($request->getLocale().'/login');
+                    return redirect(App::getLocale().'/login');
                 }
             }
         }

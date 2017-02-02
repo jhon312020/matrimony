@@ -21,6 +21,7 @@ use App\Models\Status;
 use App\Models\Package;
 use App\Models\Setting;
 use App\Models\Member;
+use App\Models\PageContent;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -963,6 +964,32 @@ class AdminController extends Controller
             }
         }
         return response(200);
+    }
+
+    function listPages() {
+        $pages = PageContent::all();
+        return view('admin.Pages.list',array('pageContents'=>$pages));
+    }
+
+    function editPage(Request $request, $id) {
+        $requiredFields = array('name','en_content','ta_content');
+        $page = PageContent::where('id',$id)->first();
+        if (!$page) {
+            return response(404);
+        }
+        if ($request->isMethod('post')) {
+            foreach ($requiredFields as $field) {
+                $page->{$field} = $request->{$field};
+            }
+            if ($page->save()) {
+                $request->session()->flash('success_message','Content has been updated successfully');
+            }
+        } else {
+            foreach ($requiredFields as $field) {
+                $request->{$field} = $page->{$field};
+            }
+        }
+        return view('admin.Pages.edit', array('request'=>$request));
     }
 
 }

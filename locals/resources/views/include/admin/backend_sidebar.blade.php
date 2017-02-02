@@ -213,6 +213,20 @@
           <li><a href="{{ asset('admin/viewPackages') }}"><i class="fa fa-circle-o"></i> Package List</a></li>
         </ul>
       </li>
+      <?php
+        $active_class = '';
+        if (in_array($action,array('editPage','listPages'))) {
+          $active_class = 'active';
+        }
+      ?>
+      <li class="treeview {{$active_class}}">
+        <a href="javascript:;">
+          <i class="fa fa-money"></i> <span>Pages</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ asset('admin/listPages') }}"><i class="fa fa-circle-o"></i> Page list</a></li>
+        </ul>
+      </li>
       <li class="treeview {{($action == 'updateSettings')?'active':''}}">
         <a href="javascript:;">
           <i class="fa fa-wrench fa-fw"></i> <span>Settings</span>

@@ -20,9 +20,6 @@
           @else 
             <img src="{{asset('assets/images/default_profile.jpg')}}" width="200" height="200" />
           @endif
-          <span data-toggle="modal" data-target="#uploadImageModal" class="image-upload-overlay">
-            <i class="fa fa-camera" style="color:white;font-size:20px;"></i>  <a href="javascript:;" style="color:white;padding-top:10px;">IMAGE UPLOAD</a>
-          </span>
       </div>
       <div class="col-sm-8 row_1">
         <table class="table_working_hours">
@@ -72,27 +69,39 @@
          <div id="myTabContent" class="tab-content">
           <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
             <div class="tab_box">
-              <h1>Personal detail <i class="fa fa-edit" onclick="toggleForm('profile-text-area','profile-text-area-form')" style="cursor:pointer;"></i></h1>
+              <h1>Personal detail</h1>
               <div id="profile-text-area">
                 <span id="about_myself_label">{{$profile->about_myself}}</span>
               </div>
-              <form onsubmit="return false;" id="profile-text-area-form" action="{{asset(App::getLocale().'/updateProfile')}}" style="display:none;">
-                <textarea class="form-text" id="about_myself" name="about_myself" rows="5" style="width:100%;height:100px;">{{$profile->about_myself}}</textarea>
-                <br/>
-                <button onclick="updateProfile('profile-text-area-form')" class="btn_1 submit">Save</button>&nbsp;&nbsp;&nbsp;
-                <button onclick="toggleForm('profile-text-area-form','profile-text-area')" class="btn_1 submit">Cancel</button>
-              </form>
             </div>
-            @include('frontend.profileform.basic_information')
-            @include('frontend.profileform.religious_information')
-            @include('frontend.profileform.education_information')
-            @include('frontend.profileform.location_information')
+            <div class="basic_1">
+              <h3>Basics & Lifestyle</h3>
+              @include('frontend.profileview.basic_information')
+            </div>
+            <div class="basic_1">
+              <h3>Religious / Social & Astro Background</h3>
+              @include('frontend.profileview.religious_information')
+            </div>
+            <div class="basic_1">
+              <h3>Education & Career</h3>
+              @include('frontend.profileview.education_information')
+            </div>
+            <div class="basic_1">
+              <h3>Location information</h3>
+              @include('frontend.profileview.location_information')
+            </div>
           </div>
           <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
-            @include('frontend.profileform.family_information')
+            <div class="basic_1">
+              <h3>Family information</h3>
+              @include('frontend.profileview.family_information')
+            </div>
          </div>
          <div role="tabpanel" class="tab-pane fade" id="profile1" aria-labelledby="profile-tab1">
-            @include('frontend.profileform.preference_information')
+            <div class="basic_1">
+              <h3>Partner preferences</h3>
+              @include('frontend.profileview.preference_information')
+            </div>
          </div>
          </div>
       </div>
@@ -100,28 +109,9 @@
      </div>
      <div class="col-md-4 profile_right">
       @include('frontend.searchProfileForm')
-        </div>
+      </div>
        <div class="clearfix"> </div>
     </div>
   </div>
-</div>
-<div class="modal fade" id="uploadImageModal" role="dialog">
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-      <form action="{{asset(App::getLocale().'/uploadProfilePicture')}}" method="POST" enctype="multipart/form-data">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Upload Profile Photo</h4>
-        </div>
-        <div class="modal-body">
-            <input type="file" name="avatar" id="avatar" required>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn_1 submit">Save</button>&nbsp;&nbsp;&nbsp;
-          <button data-dismiss="modal" class="btn_1 submit" type="button">Cancel</button>
-        </div>
-      </form>
-      </div>
-    </div>
 </div>
 @endsection

@@ -6,11 +6,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-     Caste List
+     Page List
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{asset('admin/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Caste List</li>
+      <li class="active">Page List</li>
     </ol>
   </section>
 
@@ -32,15 +32,13 @@
               <tbody>
                 <?php
                   $count = 0;
-                  foreach ($castes as $caste) {
+                  foreach ($pageContents as $pageContent) {
                     echo '<tr>';
                     echo '<td>'.++$count.'</td>';
-                    echo '<td>'.$caste->name.'</td>';
+                    echo '<td>'.$pageContent->name.'</td>';
                     echo '<td>';
                  ?>
-                    <a href="{{asset('admin/editCaste/'.$caste->id)}}"><i class="fa fa-edit"></i> Edit</a>
-                    &nbsp;&nbsp;
-                    <a href="javascript:;" class="delete_func" data-href="{{asset('admin/deleteCaste/'.$caste->id)}}"><i class="fa fa fa-trash-o"></i> Delete</a>
+                    <a href="{{asset('admin/editPage/'.$pageContent->id)}}"><i class="fa fa-edit"></i> Edit</a>
                   <?php
                     echo '</td>';
                     echo '</tr>';

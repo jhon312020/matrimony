@@ -89,3 +89,6 @@ Route::match(['get','post'],'/admin/updateSettings','AdminController@updateSetti
 
 Route::get('/admin/memberList','AdminController@memberList');
 Route::post('/admin/setRating','AdminController@setRating');
+
+Route::match(['get','post'],'/admin/editPage/{page_id}','AdminController@editPage');
+Route::get('/admin/listPages','AdminController@listPages');

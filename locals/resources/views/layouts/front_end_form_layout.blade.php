@@ -27,5 +27,37 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3150859.767904157!2d-96.62081048651531!3d39.536794757966845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1408111832978"> </iframe>
 </div> -->
 @include('include.footer')
+
+<input type="hidden" value="{{asset('/')}}" id="base_url" />
+  @if (session('success_message'))
+    <input type="hidden" value="{{ session('success_message') }}" id="success_status">
+  @endif
+  @if (session('error_message'))
+    <input type="hidden" value="{{ session('error_message') }}" id="error_status">
+  @endif
+
+  <?php
+    Request::session()->forget('success_message');
+    Request::session()->forget('error_message');
+  ?>
+  <!-- Modal -->
+  <div id="alertModal" class="modal fade" role="dialog">
+    <div class="modal-dialog  modal-md">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn_1 submit" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

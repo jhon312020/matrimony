@@ -2,7 +2,11 @@
       <div class="container">
         <div class="col-md-4 col_2">
           <h4>About Us</h4>
-          <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."</p>
+          @if (App::getLocale() == 'en')
+            <?php echo Session::get('aboutUs')->en_content; ?>
+          @else
+            <?php echo Session::get('aboutUs')->ta_content; ?>
+          @endif
         </div>
         <div class="col-md-2 col_2">
           <h4>Help & Support</h4>

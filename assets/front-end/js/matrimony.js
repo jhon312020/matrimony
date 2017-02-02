@@ -1,4 +1,12 @@
 $(document).ready(function(){
+
+  if (typeof $('#success_status').val() != 'undefined') {
+    displayAlert('Success',$('#success_status').val());
+  }
+  if (typeof $('#error_status').val() != 'undefined') {
+    displayAlert('For Your Information ',$('#error_status').val());
+  }
+
     $(".dropdown").hover(            
         function() {
             $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
@@ -42,7 +50,38 @@ $(document).ready(function(){
               $('#result_message').show();
             }
           });
-        });
+    });
+
+    $('#contact-form-submit').click(function() {
+          $('#result_message').hide();
+          $.ajax({
+            async: false,
+            method: "POST",
+            data : $('#contact-form').serialize(),
+            url : $('#contact-form').attr('action'),
+            success : function(result) {
+              if (result.success == true) {
+                $('#result_message').removeClass('alert alert-danger');
+                $('#result_message').addClass('alert alert-success');
+                $('#result_message').html(result.message);
+                document.getElementById('contact-form').reset();
+              } else {
+                $('#result_message').removeClass('alert alert-success');
+                $('#result_message').addClass('alert alert-danger');
+                $('#result_message').html(result.message);
+              }
+              $('#result_message').show();
+            }
+          });
+    });
+
+
+    $('#profile_id_search_form').submit(function(){
+      if ($('#profile_id').val() == '') {
+        return false;
+      }
+      window.location.href = $(this).attr('action')+'/'+$('#profile_id').val();
+    });
 });
 
 function toggleForm(tohide, toshow) {
@@ -61,12 +100,35 @@ function updateProfile(form_id) {
             $('#'+form_id).find('input, select, textarea').each(function(){
                 if ($(this).is("select")) {
                     $('#'+$(this).attr('id')+'_label').text($(this).find('option:selected').text());
+                    $('.'+$(this).attr('id')+'_label').text($(this).find('option:selected').text());
                 } else {
-                    $('#'+$(this).attr('id')+'_label').text($(this).val());
+                  switch ($(this).attr('id')) {
+                    case 'annual_income':
+                      $('#'+$(this).attr('id')+'_label').text(result.data.annual_income);
+                      break;
+                    case 'date_of_birth':
+                      $('#'+$(this).attr('id')+'_label').text($(this).val());
+                      $('.age_label').text(result.data.age+' Yrs');
+                      break;
+                    case 'preference_above_height':
+                      $('#'+$(this).attr('id')+'_label').text($(this).val()+' Cm');
+                      $('.'+$(this).attr('id')+'_label').text($(this).val()+' Cm');
+                      break;
+                    default:
+                      $('#'+$(this).attr('id')+'_label').text($(this).val());
+                      $('.'+$(this).attr('id')+'_label').text($(this).val());
+                      break;
+                  }
                 }
             });
             toggleForm(form_id,form_id.replace('-form',''));
           }
         }
     });
+}
+
+function displayAlert(title, message) {
+  $('#alertModal').find('.modal-title').html(title);
+  $('#alertModal').find('.modal-body p').html(message);
+  $('#alertModal').modal('show');
 }

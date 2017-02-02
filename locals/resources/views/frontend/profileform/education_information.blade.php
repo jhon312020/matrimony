@@ -1,39 +1,12 @@
-<div class="basic_1 basic_2">
+<div class="basic_1">
   <h3>Education & Career <i class="fa fa-edit" onclick="toggleForm('education-table','education-table-form')" style="cursor:pointer;"></i></h3>
-  <div id="education-table">
-    <div class="basic_1-left">
-      <table class="table_working_hours">
-        <tbody>
-          <tr class="opened">
-            <td class="day_label" width="30%">Education   :</td>
-            <td class="day_value" id="graduation_id_label">{{isset($educations[$profile->graduation_id])? $educations[$profile->graduation_id] : 'Not Specified'}}</td>
-          </tr>
-          <tr class="opened">
-            <td class="day_label">Education Detail :</td>
-            <td class="day_value" id="education_in_detail_label">{{$profile->education_in_detail}}</td>
-          </tr>
-          <tr class="opened">
-            <td class="day_label">Occupation :</td>
-            <td class="day_value" id="occupation_label">{{$profile->occupation}}</td>
-          </tr>
-          <tr class="opened">
-            <td class="day_label">Occupation Detail :</td>
-            <td class="day_value" id="occupation_in_detail_label">{{$profile->occupation_in_detail}}</td>
-          </tr>
-          <tr class="opened">
-            <td class="day_label">Annual Income :</td>
-            <td class="day_value">Rs.<span id="annual_income_label">{{$profile->annual_income}}</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  @include('frontend.profileview.education_information')
   <form onsubmit="return false;" id="education-table-form" action="{{asset(App::getLocale().'/updateProfile')}}" style="display:none;">
-    <div class="basic_1-left">
+    <div class="col-md-10 basic_1-left">
       <table class="table_working_hours">
         <tbody>
           <tr class="opened_1">
-            <td class="day_label">Education :</td>
+            <td class="day_label" width="30%">Education :</td>
             <td class="day_value">
               <div class="select-block1">
                 <select name="graduation_id" id="graduation_id">
@@ -54,6 +27,27 @@
             <td class="day_value"><textarea class="form-text" id="education_in_detail" name="education_in_detail" rows="5" style="width:100%;height:100px;">{{$profile->education_in_detail}}</textarea></td>
           </tr>
           <tr class="opened_1">
+            <td class="day_label">College :</td>
+            <td class="day_value"><input type="text" class="form-text" id="college" name="college" value="{{$profile->college}}" /></td>
+          </tr>
+          <tr class="opened_1">
+            <td class="day_label" width="30%">Employed In :</td>
+            <td class="day_value">
+              <div class="select-block1">
+                <select name="employedin" id="employedin">
+                  <option value="">Not Specified</option>
+                  @foreach($employed_in as $key=>$value)
+                    @if($profile->employedin == $value)
+                      <option value="{{$value}}" selected>{{$value}}</option>
+                    @else
+                      <option value="{{$value}}">{{$value}}</option>
+                    @endif
+                  @endforeach
+                </select>
+              </div>
+            </td>
+          </tr>
+          <tr class="opened_1">
             <td class="day_label">Occupation :</td>
             <td class="day_value"><input type="text" class="form-text" id="occupation" name="occupation" value="{{$profile->occupation}}" /></td>
           </tr>
@@ -63,7 +57,7 @@
           </tr>
           <tr class="opened_1">
             <td class="day_label">Annual Income :</td>
-            <td class="day_value closed"><input type="text" class="form-text" id="annual_income" name="annual_income" value="{{$profile->annual_income}}" /></td>
+            <td class="day_value closed"><input type="text" class="form-text" id="annual_income" name="annual_income" value="{{($profile->annual_income)?number_format($profile->annual_income):0}}" /></td>
           </tr>
         </tbody>
       </table>

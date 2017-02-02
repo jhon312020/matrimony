@@ -38,38 +38,41 @@
         <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
             <ul class="nav navbar-nav nav_1">
                 <li><a href="{{asset(App::getLocale())}}">Home</a></li>
-                <li><a href="#">About</a></li>
-            <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Matches<span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">New Matches</a></li>
-                    <li><a href="#">Who Viewed my Profile</a></li>
-                    <li><a href="#">Viewed & not Contacted</a></li>
-                    <li><a href="#">Premium Members</a></li>
-                    <li><a href="#">Shortlisted Profile</a></li>
-                  </ul>
-                </li>
-          <li class="dropdown">
+                <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Regular Search</a></li>
-                    <li><a href="#">Recently Viewed Profiles</a></li>
-                    <li><a href="#">Search By Profile ID</a></li>
-                    <li><a href="#">Faq</a></li>
-                    <li><a href="#">Shortcodes</a></li>
+                    <li><a href="{{asset(App::getLocale().'/search')}}">Regular Search</a></li>
+                    @if(Auth::guard('user')->check())
+                      <li><a href="{{asset(App::getLocale().'/search/recent')}}">Recently Viewed Profiles</a></li>
+                    @endif
                   </ul>
                 </li>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Messages<span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Inbox</a></li>
-                    <li><a href="#">New</a></li>
-                    <li><a href="#">Accepted</a></li>
-                    <li><a href="#">Sent</a></li>
-                    <li><a href="#">Upgrade</a></li>
-                  </ul>
-                </li>
-                <li class="last"><a href="#">Contacts</a></li>
+                <li><a href="{{asset(App::getLocale().'/aboutUs')}}">About Us</a></li>
+                <li><a href="{{asset(App::getLocale().'/contactUs')}}">Contact Us</a></li>
+                @if(Auth::guard('user')->check())
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      @if(file_exists('assets/profileimages/'.Auth::guard('user')->user()->avatar))
+                        <img src="{{asset('assets/profileimages/'.Auth::guard('user')->user()->avatar)}}" style="border-radius:50%" width="30" height="30" />
+                      @else
+                        <img src="{{asset('assets/images/default_profile.jpg')}}" style="border-radius:50%" width="50" height="50" />
+                      @endif
+                      <span class="name_label">
+                        @if (Session::get('user.profile')->name)
+                          {{Session::get('user.profile')->name}}
+                        @else
+                          {{Auth::guard('user')->user()->username}}
+                        @endif
+                      </span>
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="{{asset(App::getLocale().'/profile')}}">View Profile</a></li>
+                      <li><a href="{{asset(App::getLocale().'/changePassword')}}">Change Password</a></li>
+                      <li><a href="{{asset(App::getLocale().'/logout')}}">Logout</a></li>
+                    </ul>
+                  </li>
+                @endif
             </ul>
          </div><!-- /.navbar-collapse -->
         </nav>

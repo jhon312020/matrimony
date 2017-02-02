@@ -31,4 +31,6 @@ class Member extends Authenticatable
         	);
         return $validator;
 	}
+
+	
 }
