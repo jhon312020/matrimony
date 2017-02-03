@@ -92,3 +92,11 @@ Route::post('/admin/setRating','AdminController@setRating');
 
 Route::match(['get','post'],'/admin/editPage/{page_id}','AdminController@editPage');
 Route::get('/admin/listPages','AdminController@listPages');
+
+Route::match(['get','post'],'/dev/addPage','DeveloperController@addPage');
+Route::match(['get','post'],'/dev/pageEdit/{page_id}','DeveloperController@editPage');
+Route::get('/dev/pageList','DeveloperController@pageList');
+Route::get('/dev/deletePage/{id}','DeveloperController@deletePage');
+
+
+Route::match(['get','post'],'/admin/rolePermission/{id}','AdminController@rolePermission');

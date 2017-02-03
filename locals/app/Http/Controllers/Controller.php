@@ -43,6 +43,16 @@ class Controller extends BaseController
       return substr(str_shuffle(str_repeat($x='123456789ABCDEFGHIJKLMNPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
     }
 
+    function pr($data) {
+      if (is_array($data) || is_object($data)) {
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+      } else {
+        echo $data;
+      }
+    }
+
     function _sendMail($template, $subject, $content, $to_email, $to_name = NULL, $cc = NULL) {
       $settings = Setting::where('id',1)->first();
 

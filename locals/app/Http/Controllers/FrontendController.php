@@ -10,6 +10,7 @@ use Session;
 use Config;
 use App;
 use DateTime;
+use URL;
 
 use App\User;
 use App\Models\Role;
@@ -45,7 +46,7 @@ class FrontendController extends Controller
     public function __construct(Request $request) {
         parent::init();
         $this->middleware('locale');
-        $this->middleware('auth:user',['except'=>['index', 'viewRegister','register','login','logout','search','aboutUs','contactUs','sendContactMail']]);
+        $this->middleware('auth:user',['except'=>['index', 'viewRegister','register','login','logout','search','aboutUs','contactUs','sendContactMail','changeLanguage']]);
     }
     
     public function index(Request $request) {
@@ -53,10 +54,7 @@ class FrontendController extends Controller
         $data['statuses'] = Status::lists('name','id')->toArray();
         $data['stars'] = Star::lists('name','id')->toArray();
         $data['religions'] = Religion::lists('name','id')->toArray();
-        $result = MemberProfile::with(['member' => function ($query) {
-                        $query->orderBy('profile_rate', 'desc');
-                    },'religion'])
-                    ->limit(6)->get();
+        $result = MembersView::where('religion_id','<>',0)->where('country','<>','')->orderBy('profile_rate','desc')->limit(6)->get();
         $data['featured_members'] = $result;
         return view('frontend.index',$data);
     }
@@ -147,7 +145,7 @@ class FrontendController extends Controller
                     break;    
             }
         }
-        $data['members'] = $memberView->paginate(10);
+        $data['members'] = $memberView->paginate(1);
         $data['input'] = $input;
         return view('frontend.search',$data);
     }
@@ -402,6 +400,16 @@ class FrontendController extends Controller
             $result = array('success'=>false, 'message'=>'Kindly fill all the fields');
         }
         return new JsonResponse($result);
+    }
+
+    function changeLanguage(Request $request, $locale, $oldLocale) {
+        $previousUrl = URL::previous();
+        $currentBaseUrl = asset($oldLocale);
+        $newBaseUrl = asset($locale);
+        if (in_array($locale, array('en','ta'))) {
+            $previousUrl = str_replace($currentBaseUrl, $newBaseUrl, $previousUrl);
+        }        
+        return redirect($previousUrl);
     }
 
 }

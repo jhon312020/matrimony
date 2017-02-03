@@ -28,5 +28,7 @@ Route::group(array('prefix' => '{locale?}'), function() {
   Route::get('aboutUs','FrontendController@aboutUs');
   Route::get('contactUs','FrontendController@contactUs');
   Route::post('sendContactMail','FrontendController@sendContactMail');
+  Route::get('changeLanguage/{currentPath}','FrontendController@changeLanguage');
+
 });
 

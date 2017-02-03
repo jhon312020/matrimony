@@ -18,17 +18,17 @@
         @endif
       <address class="addr row">
         <dl class="grid_4">
-            <dt>Address :</dt>
+            <dt style="vertical-align:top">Address :</dt>
             <dd>
-                8901 Nulla Pariatur, <br>
-                Ipsum, D05 87GR.
+                111, Test street, <br>
+                T-Nagar,Chennai.
             </dd>
         </dl>
         <dl class="grid_4">
-            <dt>Telephones :</dt>
+            <dt style="vertical-align:top;">Telephones :</dt>
             <dd>
-                +1 800 245 4578 <br>
-                +1 800 789 5478
+                +1 000 000 0000 <br>
+                +1 000 000 0000
             </dd>
         </dl>
         <dl class="grid_4">

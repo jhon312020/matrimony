@@ -10,6 +10,7 @@ use Session;
 
 use App\User;
 use App\Models\Role;
+use App\Models\RolePermission;
 use App\Models\Star;
 use App\Models\Religion;
 use App\Models\Caste;
@@ -22,6 +23,7 @@ use App\Models\Package;
 use App\Models\Setting;
 use App\Models\Member;
 use App\Models\PageContent;
+use App\Models\Page;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -62,6 +64,9 @@ class AdminController extends Controller
                     $role = new Role;
                     $role->name = $name;
                     if ($role->save()){
+                        $rolePermission = new RolePermission;
+                        $rolePermission->role_id = $role->id;
+                        $rolePermission->save();
                         return redirect('admin/viewRoles')->with('success_message','A new role has been added successfully');
                     } else {                        
                         $request->session()->flash('error_message','Sorry something wrong try again later');
@@ -990,6 +995,42 @@ class AdminController extends Controller
             }
         }
         return view('admin.Pages.edit', array('request'=>$request));
+    }
+
+    function rolePermission(Request $request,$id) {
+        $exists = Role::where('id',$id)->first();
+        if (!$exists) {
+            return redirect('admin/viewRoles');
+        }
+
+        $rolePermission = RolePermission::where('role_id',$id)->first();
+        if ($rolePermission) {
+            if ($rolePermission->permissions) {
+                $inputs = explode(',',$rolePermission->permissions);
+            } else {
+                $inputs = [];
+            }
+        } else {
+            $rolePermission = new RolePermission;
+            $rolePermission->role_id = $exists->id;
+            $rolePermission->save();
+            $inputs = [];
+        }
+        if ($request->isMethod('post')) {
+            if ($request->has('inputs')) {
+                $inputs = $request->inputs;
+                $rolePermission->permissions = implode(',',$request->inputs);
+                $rolePermission->save();
+                $request->session()->flash('success_message','Permission has been updated successfully');
+            }
+        }
+
+        $pages = Page::all();
+        $pageList = [];
+        foreach ($pages as $page) {
+            $pageList[$page->nav_title][] = $page;
+        }
+        return view('admin.Roles.role_permission', array('request'=>$request, 'inputs'=>$inputs, 'pageList'=>$pageList));
     }
 
 }

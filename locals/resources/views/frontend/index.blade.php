@@ -87,26 +87,22 @@
         <ul id="flexiselDemo3">
         @foreach ($featured_members as $member) 
           <li>
-              <div class="col_1"><a href="{{asset(App::getLocale().'/profile/'.$member->member->rand_id)}}">
+              <div class="col_1"><a href="{{asset(App::getLocale().'/profile/'.$member->rand_id)}}">
                 <div style="width:171px;height:141px;overflow:hidden">
-                  @if ($member->member->avatar && file_exists('assets/profileimages/'.$member->member->avatar))
-                    <img src="{{asset('assets/profileimages/'.$member->member->avatar)}}" alt="" class="hover-animation image-zoom-in img-responsive" style="width:171px;min-height:141px;" />
+                  @if ($member->avatar && file_exists('assets/profileimages/'.$member->avatar))
+                    <img src="{{asset('assets/profileimages/'.$member->avatar)}}" alt="" class="hover-animation image-zoom-in img-responsive" style="width:171px;min-height:141px;" />
                   @else
                     <img src="{{asset('assets/images/default_profile.jpg')}}" alt="" class="hover-animation image-zoom-in img-responsive" style="width:171px;min-height:141px;" />
                   @endif
                 </div>
                 <div class="layer m_1 hidden-link hover-animation delay1 fade-in">
-                  <div class="center-middle">{{($member->member->gender == 'Male')? 'About Him' : 'About Her'}}</div>
+                  <div class="center-middle">{{($member->gender == 'Male')? 'About Him' : 'About Her'}}</div>
                 </div>
                 <h3>
-                    <span class="m_3">Profile ID : {{$member->member->rand_id}}</span>
+                    <span class="m_3">Profile ID : {{$member->rand_id}}</span>
                     <br>
-                    <?php
-                      $from_date = new DateTime($member->member->date_of_birth);
-                      $to_date = new DateTime('today');
-                      echo $to_date->diff($from_date)->y.' Yrs';
-                    ?>,
-                    {{($member->religion)?$member->religion->name:''}}, {{$member->country}}<br>{{$member->employedin}}
+                    {{$member->age}} Yrs,
+                    {{($member->religion)?$member->religion:''}}, {{$member->country}}<br>{{$member->employedin}}
                 </h3></a></div>
           </li>
         @endforeach

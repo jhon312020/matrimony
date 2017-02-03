@@ -152,7 +152,7 @@
 
 $(".rating").rating('create',{
     cursor: 'pointer',
-    coloron:'red',
+    coloron:'#ff7700',
     limit:5,
     glyph:'glyphicon-heart',
     onClick:function(){ 

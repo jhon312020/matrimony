@@ -43,8 +43,15 @@
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="{{asset(App::getLocale().'/search')}}">Regular Search</a></li>
                     @if(Auth::guard('user')->check())
-                      <li><a href="{{asset(App::getLocale().'/search/recent')}}">Recently Viewed Profiles</a></li>
+                      <!-- <li><a href="{{asset(App::getLocale().'/search/recent')}}">Recently Viewed Profiles</a></li> -->
                     @endif
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Language<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{asset('ta/changeLanguage/'.App::getLocale())}}">Tamil</a></li>
+                    <li><a href="{{asset('en/changeLanguage/'.App::getLocale())}}">English</a></li>
                   </ul>
                 </li>
                 <li><a href="{{asset(App::getLocale().'/aboutUs')}}">About Us</a></li>
@@ -52,10 +59,10 @@
                 @if(Auth::guard('user')->check())
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      @if(file_exists('assets/profileimages/'.Auth::guard('user')->user()->avatar))
+                      @if(Auth::guard('user')->user()->avatar && file_exists('assets/profileimages/'.Auth::guard('user')->user()->avatar))
                         <img src="{{asset('assets/profileimages/'.Auth::guard('user')->user()->avatar)}}" style="border-radius:50%" width="30" height="30" />
                       @else
-                        <img src="{{asset('assets/images/default_profile.jpg')}}" style="border-radius:50%" width="50" height="50" />
+                        <img src="{{asset('assets/images/default_profile.jpg')}}" style="border-radius:50%" width="30" height="30" />
                       @endif
                       <span class="name_label">
                         @if (Session::get('user.profile')->name)
@@ -72,6 +79,8 @@
                       <li><a href="{{asset(App::getLocale().'/logout')}}">Logout</a></li>
                     </ul>
                   </li>
+                @else
+                  <li><a href="{{asset(App::getLocale().'/login')}}">Login</a></li>
                 @endif
             </ul>
          </div><!-- /.navbar-collapse -->

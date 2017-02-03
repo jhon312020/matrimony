@@ -6,11 +6,11 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-     Role List
+     Page List
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{asset('admin/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Role List</li>
+      <li class="active">Page List</li>
     </ol>
   </section>
 
@@ -25,24 +25,24 @@
               <thead>
                 <tr>
                    <th>Sl No.</th>
-                    <th>Name</th>
+                    <th>Navigation Title</th>
+                    <th>Title</th>
                     <th>Manage</th>
                   </tr>
               </thead>
               <tbody>
                 <?php
                   $count = 0;
-                  foreach ($roles as $role) {
+                  foreach ($pages as $page) {
                     echo '<tr>';
                     echo '<td>'.++$count.'</td>';
-                    echo '<td>'.$role->name.'</td>';
+                    echo '<td>'.$page->nav_title.'</td>';
+                    echo '<td>'.$page->title.'</td>';
                     echo '<td>';
                  ?>
-                    <a href="{{asset('admin/editRole/'.$role->id)}}"><i class="fa fa-edit"></i> Edit</a>
+                    <a href="{{asset('dev/pageEdit/'.$page->id)}}"><i class="fa fa-edit"></i> Edit</a>
                     &nbsp;&nbsp;
-                    <a href="javascript:;" class="delete_func" data-href="{{asset('admin/deleteRole/'.$role->id)}}"><i class="fa fa fa-trash-o"></i> Delete</a>
-                    &nbsp;&nbsp;
-                    <a href="{{asset('admin/rolePermission/'.$role->id)}}" <i class="fa fa-certificate"></i> Permission</a>
+                    <a href="javascript:;" class="delete_func" data-href="{{asset('dev/deletePage/'.$page->id)}}"><i class="fa fa fa-trash-o"></i> Delete</a>
                   <?php
                     echo '</td>';
                     echo '</tr>';

@@ -428,3 +428,60 @@ CREATE TABLE IF NOT EXISTS `page_contents` (
 INSERT INTO `page_contents` (`id`, `name`, `en_content`, `ta_content`, `created_at`, `updated_at`) VALUES
 (1, 'aboutUs', '<p>about us english content</p>\r\n', '<p><p>about us tamil content</p>', '2017-02-02 00:00:00', '2017-02-02 11:23:06'),
 (2, 'contactus', '<p>contact us english content</p>\r\n', '<p>contact us tamil content</p>\r\n', '2017-02-15 00:00:00', '2017-02-01 13:56:06');
+
+CREATE TABLE IF NOT EXISTS `member_profile_viewed` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `profile_id` varchar(255) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `viewed_member_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+# 03-Feb-2017
+ALTER TABLE `members` CHANGE `profile_rate` `profile_rate` INT(11) NOT NULL DEFAULT '0';
+
+CREATE TABLE IF NOT EXISTS `pages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nav_title` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `role_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `role_permissions` CHANGE `role_id` `role_id` INT NOT NULL;
+
+ALTER TABLE `role_permissions` ADD `permissions` TEXT NOT NULL AFTER `role_id`;
+
+INSERT INTO `pages` (`id`, `nav_title`, `title`, `action`, `created_at`, `updated_at`) VALUES
+(1, 'Dashboard', 'Dashboard', 'dashboard', '2017-02-03 13:54:29', '2017-02-03 13:55:56'),
+(2, 'Members', 'Member list', 'memberList', '2017-02-03 13:57:36', '2017-02-03 13:57:36'),
+(3, 'User Management', 'Add User', 'addUser', '2017-02-03 13:58:20', '2017-02-03 13:58:20'),
+(4, 'User Management', 'User List', 'viewUsers', '2017-02-03 13:58:37', '2017-02-03 13:58:37'),
+(5, 'Star', 'Add Star', 'addStar', '2017-02-03 14:00:05', '2017-02-03 14:00:05'),
+(6, 'Star', 'Star List', 'viewStars', '2017-02-03 14:00:45', '2017-02-03 14:00:45'),
+(7, 'Religion', 'Add Religion', 'addReligion', '2017-02-03 14:01:07', '2017-02-03 14:01:07'),
+(8, 'Religion', 'Religion List', 'viewReligions', '2017-02-03 14:01:28', '2017-02-03 14:01:28'),
+(9, 'Sub Caste', 'Add Caste', 'addCaste', '2017-02-03 14:01:51', '2017-02-03 14:01:51'),
+(10, 'Sub Caste', 'Caste List', 'viewCastes', '2017-02-03 14:02:13', '2017-02-03 14:02:13'),
+(11, 'Location', 'Add Location', 'addLocation', '2017-02-03 14:02:28', '2017-02-03 14:02:28'),
+(12, 'Location', 'Location List', 'viewLocations', '2017-02-03 14:02:43', '2017-02-03 14:02:43'),
+(13, 'Moon sign', 'Add Moon sign', 'addMoonsign', '2017-02-03 14:03:08', '2017-02-03 14:03:08'),
+(14, 'Moon sign', 'Moon sign List', 'viewMoonsigns', '2017-02-03 14:03:29', '2017-02-03 14:03:29'),
+(15, 'Zodiac sign', 'Zodiac sign List', 'viewZodiacsigns', '2017-02-03 14:04:04', '2017-02-03 14:04:04'),
+(16, 'Zodiac sign', 'Add Zodiac sign', 'addZodiacsign', '2017-02-03 14:04:38', '2017-02-03 14:04:38'),
+(17, 'Graduation', 'Add Graduation', 'addGraduation', '2017-02-03 14:05:01', '2017-02-03 14:05:01'),
+(18, 'Graduation', 'Graduation List', 'viewGraduations', '2017-02-03 14:05:16', '2017-02-03 14:05:16'),
+(19, 'Status', 'Status List', 'viewStatus', '2017-02-03 14:05:46', '2017-02-03 14:05:46'),
+(20, 'Status', 'Add Status', 'addStatus', '2017-02-03 14:05:58', '2017-02-03 14:05:58');
