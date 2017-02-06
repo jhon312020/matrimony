@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 
 use Validator;
 use Session;
+use Route;
 
 use App\User;
 use App\Models\Role;
@@ -41,6 +42,7 @@ class AdminController extends Controller
     {
         parent::init();
         $this->middleware('auth:admin');
+        $this->middleware('role_permission',['except'=>['changePassword']]);
     }
 
     function dashboard() {
@@ -67,7 +69,7 @@ class AdminController extends Controller
                         $rolePermission = new RolePermission;
                         $rolePermission->role_id = $role->id;
                         $rolePermission->save();
-                        return redirect('admin/viewRoles')->with('success_message','A new role has been added successfully');
+                        $request->session()->flash('success_message','A new role has been added successfully');
                     } else {                        
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -82,11 +84,18 @@ class AdminController extends Controller
     }
 
     function deleteRole($role_id) {
+        if ($role_id == 1) {
+            return redirect('admin/viewRoles');
+        }
         $role = Role::where('id',$role_id)->first();
         if ($role) {
             $used = User::where('role_id',$role_id)->count();
             if ($used == 0) {
                 $role->delete();
+                $rolePermission = RolePermission::where('role_id',$role_id)->first();
+                if ($rolePermission) {
+                    $rolePermission->delete();
+                }
                 return redirect('admin/viewRoles')->with('success_message', 'Role has been deleted!');
             } else {
                 return redirect('admin/viewRoles')->with('error_message', 'Sorry some one using the role!');
@@ -96,6 +105,9 @@ class AdminController extends Controller
     }
 
     function editRole(Request $request, $role_id) {
+        if ($role_id == 1) {
+            return redirect('admin/viewRoles');
+        }
         $role = Role::where('id',$role_id)->first();
         if (!$role) {
             return response(400);
@@ -109,7 +121,7 @@ class AdminController extends Controller
                 if (!$exists) {
                     $role->name = $name;
                     if ($role->save()){
-                        return redirect('admin/viewRoles')->with('success_message','Role has been updated successfully!');
+                        $request->session()->flash('success_message','Role has been updated successfully!');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -145,7 +157,7 @@ class AdminController extends Controller
                         $user->role_id = $request->role_id;
                         $user->is_active = 1;;
                         if ($user->save()) {
-                            return redirect('admin/viewUsers')->with('success_message','A user has been created successfully');
+                            $request->session()->flash('success_message','A user has been created successfully');
                         } else {
                             $request->session()->flash('error_message','Sorry something wrong try again later');
                         }
@@ -181,7 +193,7 @@ class AdminController extends Controller
                         $user->{$field} = $request->{$field};
                     }
                     if ($user->save()) {
-                        return redirect('admin/viewUsers')->with('success_message','User has been updated successfully');
+                        $request->session()->flash('success_message','User has been updated successfully');
                     } else {
                         $request->session()->flash('error_message','Kindly fill all the fields');
                     }
@@ -225,7 +237,7 @@ class AdminController extends Controller
                     $star->name = $name;
                     if ($star->save()){
                         $data = $star;
-                        return redirect('admin/viewStars')->with('success_message','A new star has been added successfully');
+                        return redirect($request->url())->with('success_message','A new star has been added successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -254,7 +266,7 @@ class AdminController extends Controller
                     $star->name = $name;
                     if ($star->save()){
                         $data = $star;
-                        return redirect('admin/viewStars')->with('success_message','Star has been updated successfully');
+                        return redirect($request->url())->with('success_message','Star has been updated successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -294,7 +306,7 @@ class AdminController extends Controller
                     $religion = new Religion;
                     $religion->name = $name;
                     if ($religion->save()){
-                        return redirect('admin/viewReligions')->with('success_message','A new religion has been added successfully');
+                        return redirect($request->url())->with('success_message','A new religion has been added successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -322,7 +334,7 @@ class AdminController extends Controller
                 if (!$exists) {
                     $religion->name = $name;
                     if ($religion->save()){
-                        return redirect('admin/viewReligions')->with('success_message','Religion has been updated successfully');
+                        return redirect($request->url())->with('success_message','Religion has been updated successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -362,7 +374,7 @@ class AdminController extends Controller
                     $caste = new Caste;
                     $caste->name = $name;
                     if ($caste->save()){
-                        return redirect('admin/viewCastes')->with('success_message','A new Caste has been added successfully');
+                        return redirect($request->url())->with('success_message','A new Caste has been added successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -390,7 +402,7 @@ class AdminController extends Controller
                 if (!$exists) {
                     $caste->name = $name;
                     if ($caste->save()){
-                        return redirect('admin/viewCastes')->with('success_message','Caste has been updated successfully');
+                        return redirect($request->url())->with('success_message','Caste has been updated successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -435,7 +447,7 @@ class AdminController extends Controller
                         $location->{$field} = $request->{$field};
                     }
                     if ($location->save()){
-                        return redirect('admin/viewLocations')->with('success_message','A new Location has been added successfully');
+                        return redirect($request->url())->with('success_message','A new Location has been added successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -470,7 +482,7 @@ class AdminController extends Controller
                         $location->{$field} = $request->{$field};
                     }
                     if ($location->save()){
-                        return redirect('admin/viewLocations')->with('success_message','Location has been updated successfully');
+                        return redirect($request->url())->with('success_message','Location has been updated successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -515,7 +527,7 @@ class AdminController extends Controller
                         $moonsign->{$field} = $request->{$field};
                     }
                     if ($moonsign->save()){
-                        return redirect('admin/viewMoonsigns')->with('success_message','A new Moon sign has been added successfully');
+                        return redirect($request->url())->with('success_message','A new Moon sign has been added successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -548,7 +560,7 @@ class AdminController extends Controller
                         $moonsign->{$field} = $request->{$field};
                     }
                     if ($moonsign->save()){
-                        return redirect('admin/viewMoonsigns')->with('success_message','Moon sign has been updated successfully');
+                        return redirect($request->url())->with('success_message','Moon sign has been updated successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -593,7 +605,7 @@ class AdminController extends Controller
                         $zodiacsign->{$field} = $request->{$field};
                     }
                     if ($zodiacsign->save()){
-                        return redirect('admin/viewZodiacsigns')->with('success_message','A new Zodiac sign has been added successfully');
+                        return redirect($request->url())->with('success_message','A new Zodiac sign has been added successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -626,7 +638,7 @@ class AdminController extends Controller
                         $zodiacsign->{$field} = $request->{$field};
                     }
                     if ($zodiacsign->save()){
-                        return redirect('admin/viewZodiacsigns')->with('success_message','Zodiac sign has been updated successfully');
+                        return redirect($request->url())->with('success_message','Zodiac sign has been updated successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -668,7 +680,7 @@ class AdminController extends Controller
                     $graduation = new Graduation;
                     $graduation->name = $name;
                     if ($graduation->save()){
-                        return redirect('admin/viewGraduations')->with('success_message','A new Graduation has been added successfully');
+                        return redirect($request->url())->with('success_message','A new Graduation has been added successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -696,7 +708,7 @@ class AdminController extends Controller
                 if (!$exists) {
                     $graduation->name = $name;
                     if ($graduation->save()){
-                        return redirect('admin/viewGraduations')->with('success_message','Graduation has been updated successfully');
+                        return redirect($request->url())->with('success_message','Graduation has been updated successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -736,7 +748,7 @@ class AdminController extends Controller
                     $Status = new Status;
                     $Status->name = $name;
                     if ($Status->save()){
-                        return redirect('admin/viewStatus')->with('success_message','A new Status has been added successfully');
+                        return redirect($request->url())->with('success_message','A new Status has been added successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -764,7 +776,7 @@ class AdminController extends Controller
                 if (!$exists) {
                     $Status->name = $name;
                     if ($Status->save()){
-                        return redirect('admin/viewStatus')->with('success_message','Status has been updated successfully');
+                        return redirect($request->url())->with('success_message','Status has been updated successfully');
                     } else {
                         $request->session()->flash('error_message','Sorry something wrong try again later');
                     }
@@ -809,7 +821,7 @@ class AdminController extends Controller
                     $validator = $package->validateFields($request->input());
                     if ($validator->passes()) {
                         if ($package->save()){
-                            return redirect('admin/viewPackages')->with('success_message','A new Package has been added successfully');
+                            return redirect($request->url())->with('success_message','A new Package has been added successfully');
                         } else {
                             $request->session()->flash('error_message','Sorry something wrong try again later');
                         }    
@@ -848,7 +860,7 @@ class AdminController extends Controller
                     $validator = $package->validateFields($package->toArray());
                     if ($validator->passes()) {
                         if ($package->save()){
-                            return redirect('admin/viewPackages')->with('success_message','Package has been updated successfully');
+                            return redirect($request->url())->with('success_message','Package has been updated successfully');
                         } else {
                             $request->session()->flash('error_message','Sorry something wrong try again later');
                         }
@@ -998,6 +1010,9 @@ class AdminController extends Controller
     }
 
     function rolePermission(Request $request,$id) {
+        if ($id == 1) {
+            return redirect('admin/viewRoles');
+        }
         $exists = Role::where('id',$id)->first();
         if (!$exists) {
             return redirect('admin/viewRoles');

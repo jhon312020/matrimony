@@ -15,6 +15,10 @@ Route::get('/admin', function(){
 	return redirect('admin/login');
 });
 
+Route::get('/admin/403', function(){
+	return view('admin.403');
+});
+
 Route::get('/admin/dashboard','AdminController@dashboard');
 
 Route::get('/admin/login', function(){

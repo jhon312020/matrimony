@@ -50,5 +50,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'locale' => \App\Http\Middleware\Localization::class,
+        'role_permission' => \App\Http\Middleware\RolePermissionAccess::class,
     ];
 }

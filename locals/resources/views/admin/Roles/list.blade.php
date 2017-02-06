@@ -38,11 +38,13 @@
                     echo '<td>'.$role->name.'</td>';
                     echo '<td>';
                  ?>
-                    <a href="{{asset('admin/editRole/'.$role->id)}}"><i class="fa fa-edit"></i> Edit</a>
-                    &nbsp;&nbsp;
-                    <a href="javascript:;" class="delete_func" data-href="{{asset('admin/deleteRole/'.$role->id)}}"><i class="fa fa fa-trash-o"></i> Delete</a>
-                    &nbsp;&nbsp;
-                    <a href="{{asset('admin/rolePermission/'.$role->id)}}" <i class="fa fa-certificate"></i> Permission</a>
+                    @if ($role->id != 1)
+                      <a href="{{asset('admin/editRole/'.$role->id)}}"><i class="fa fa-edit"></i> Edit</a>
+                      &nbsp;&nbsp;
+                      <a href="javascript:;" class="delete_func" data-href="{{asset('admin/deleteRole/'.$role->id)}}"><i class="fa fa fa-trash-o"></i> Delete</a>
+                      &nbsp;&nbsp;
+                      <a href="{{asset('admin/rolePermission/'.$role->id)}}" <i class="fa fa-certificate"></i> Permission</a>
+                    @endif
                   <?php
                     echo '</td>';
                     echo '</tr>';

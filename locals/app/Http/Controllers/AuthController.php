@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 
 use App\User;
+use App\Models\Page;
+use App\Models\RolePermission;
+use Session;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -30,6 +33,13 @@ class AuthController extends Controller
         $errorMessage = '';
         if ($request->isMethod('post')) {
             if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'is_active'=>1])) {
+                $role_id = Auth::guard('admin')->user()->role_id;
+                if ($role_id != 1) {
+                    $actionIds = RolePermission::where('role_id',$role_id)->first();
+                    $actionIds = explode(',', $actionIds->permissions);
+                    $pages = Page::whereIn('id',$actionIds)->lists('action','action')->toArray();
+                    Session::put('role_permission',$pages);
+                }
                 return redirect('admin/dashboard');
             } else {
                 $errorMessage = 'Invalid Username/Password';
