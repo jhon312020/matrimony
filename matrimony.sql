@@ -464,7 +464,7 @@ ALTER TABLE `role_permissions` CHANGE `role_id` `role_id` INT NOT NULL;
 
 ALTER TABLE `role_permissions` ADD `permissions` TEXT NOT NULL AFTER `role_id`;
 
-INSERT INTO `pages` (`id`, `nav_title`, `title`, `action`, `created_at`, `updated_at`) VALUES
+INSERT INTO `pages` ( `nav_title`, `title`, `action`, `created_at`, `updated_at`) VALUES
 (1, 'Dashboard', 'Dashboard', 'dashboard', '2017-02-03 13:54:29', '2017-02-03 13:55:56'),
 (2, 'Members', 'Member list', 'memberList', '2017-02-03 13:57:36', '2017-02-03 13:57:36'),
 (3, 'User Management', 'Add User', 'addUser', '2017-02-03 13:58:20', '2017-02-03 13:58:20'),
@@ -485,3 +485,35 @@ INSERT INTO `pages` (`id`, `nav_title`, `title`, `action`, `created_at`, `update
 (18, 'Graduation', 'Graduation List', 'viewGraduations', '2017-02-03 14:05:16', '2017-02-03 14:05:16'),
 (19, 'Status', 'Status List', 'viewStatus', '2017-02-03 14:05:46', '2017-02-03 14:05:46'),
 (20, 'Status', 'Add Status', 'addStatus', '2017-02-03 14:05:58', '2017-02-03 14:05:58');
+
+
+INSERT INTO `pages` (`nav_title`, `title`, `action`, `created_at`, `updated_at`) VALUES
+('User Management', 'Edit User', 'editUser', '2017-02-03 13:58:20', '2017-02-03 13:58:20'),
+('Star', 'Edit Star', 'editStar', '2017-02-03 14:00:05', '2017-02-03 14:00:05'),
+('Religion', 'Edit Religion', 'editReligion', '2017-02-03 14:01:07', '2017-02-03 14:01:07'),
+('Sub Caste', 'Edit Caste', 'editCaste', '2017-02-03 14:01:51', '2017-02-03 14:01:51'),
+('Location', 'Edit Location', 'editLocation', '2017-02-03 14:02:28', '2017-02-03 14:02:28'),
+('Moon sign', 'Edit Moon sign', 'editMoonsign', '2017-02-03 14:03:08', '2017-02-03 14:03:08'),
+('Zodiac sign', 'Edit Zodiac sign', 'editZodiacsign', '2017-02-03 14:04:38', '2017-02-03 14:04:38'),
+('Graduation', 'Edit Graduation', 'editGraduation', '2017-02-03 14:05:01', '2017-02-03 14:05:01'),
+('Status', 'Edit Status', 'editStatus', '2017-02-03 14:05:58', '2017-02-03 14:05:58'),
+('User Management', 'Delete User', 'deleteUser', '2017-02-03 13:58:20', '2017-02-03 13:58:20'),
+('Star', 'Delete Star', 'deleteStar', '2017-02-03 14:00:05', '2017-02-03 14:00:05'),
+('Religion', 'Delete Religion', 'deleteReligion', '2017-02-03 14:01:07', '2017-02-03 14:01:07'),
+('Sub Caste', 'Delete Caste', 'deleteCaste', '2017-02-03 14:01:51', '2017-02-03 14:01:51'),
+('Location', 'Delete Location', 'deleteLocation', '2017-02-03 14:02:28', '2017-02-03 14:02:28'),
+('Moon sign', 'Delete Moon sign', 'deleteMoonsign', '2017-02-03 14:03:08', '2017-02-03 14:03:08'),
+('Zodiac sign', 'Delete Zodiac sign', 'deleteZodiacsign', '2017-02-03 14:04:38', '2017-02-03 14:04:38'),
+('Graduation', 'Delete Graduation', 'deleteGraduation', '2017-02-03 14:05:01', '2017-02-03 14:05:01'),
+('Status', 'Delete Status', 'deleteStatus', '2017-02-03 14:05:58', '2017-02-03 14:05:58'),
+('Members', 'Memebers Rate', 'setRating', '2017-02-03 14:05:58', '2017-02-03 14:05:58');
+
+
+CREATE TABLE IF NOT EXISTS `profile_interest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `member_id` int(11) NOT NULL,
+  `interested_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

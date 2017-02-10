@@ -7,6 +7,27 @@ $(document).ready(function(){
     displayAlert('For Your Information ',$('#error_status').val());
   }
 
+  $(document).on('click','.jsendInterest',function(){
+    element = $(this);
+    data = {interested_id:$(this).attr('data-target')};
+    url = $(this).attr('data-action');
+    $.ajax({
+            async: false,
+            method: "POST",
+            data : data,
+            url : url,
+            success : function(result) {
+              if (result.success) {
+                $(element).removeClass('jsendInterest');
+                $(element).removeAttr('data-target');
+                $(element).removeAttr('data-action');
+                $(element).text('Interested');
+                displayAlert('Success','Your request has been sent');
+              }
+            }
+    }); 
+  });
+
     $(".dropdown").hover(            
         function() {
             $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
@@ -114,6 +135,11 @@ function updateProfile(form_id) {
                       $('#'+$(this).attr('id')+'_label').text($(this).val()+' Cm');
                       $('.'+$(this).attr('id')+'_label').text($(this).val()+' Cm');
                       break;
+                    case 'facebook':
+                    case 'twitter':
+                    case 'google_plus':
+                      $('.'+$(this).attr('id')+'_label').attr('href',$(this).val());
+                      break;
                     default:
                       $('#'+$(this).attr('id')+'_label').text($(this).val());
                       $('.'+$(this).attr('id')+'_label').text($(this).val());
@@ -125,6 +151,7 @@ function updateProfile(form_id) {
           }
         }
     });
+
 }
 
 function displayAlert(title, message) {

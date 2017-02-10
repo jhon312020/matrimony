@@ -59,6 +59,11 @@
             </tr>
             </tbody>
         </table>
+        <div>
+          <a href="{{$profile->facebook}}" class="facebook_label" style="text-align:center"><i class="fa fa-facebook fa1"></i></a>
+          <a href="{{$profile->twitter}}" class="twitter_label" style="text-align:center"><i class="fa fa-twitter fa1"></i></a>
+          <a href="{{$profile->google_plus}}" class="google_plus_label" style="text-align:center"><i class="fa fa-google-plus fa1"></i></a>
+        </div>        
       </div>
       <div class="clearfix"> </div>
     </div>
@@ -87,6 +92,7 @@
             @include('frontend.profileform.religious_information')
             @include('frontend.profileform.education_information')
             @include('frontend.profileform.location_information')
+            @include('frontend.profileform.social_media_information')
           </div>
           <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
             @include('frontend.profileform.family_information')

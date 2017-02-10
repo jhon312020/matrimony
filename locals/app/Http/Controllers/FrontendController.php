@@ -29,6 +29,7 @@ use App\Models\MemberProfile;
 use App\Models\MembersView;
 use App\Models\MemberProfileViewed;
 use App\Models\PageContent;
+use App\Models\ProfileInterest;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -46,14 +47,14 @@ class FrontendController extends Controller
     public function __construct(Request $request) {
         parent::init();
         $this->middleware('locale');
-        $this->middleware('auth:user',['except'=>['index', 'viewRegister','register','login','logout','search','aboutUs','contactUs','sendContactMail','changeLanguage']]);
+        $this->middleware('auth:user',['except'=>['index', 'viewRegister','register','login','logout','search','aboutUs','contactUs','sendContactMail','changeLanguage','forgotPassword','resetPassword']]);
     }
     
     public function index(Request $request) {
         $data['countries'] = Location::groupBy('country')->lists('country','country')->toArray();
         $data['statuses'] = Status::lists('name','id')->toArray();
         $data['stars'] = Star::lists('name','id')->toArray();
-        $data['religions'] = Religion::lists('name','id')->toArray();
+        $data['mother_tongue'] = ['Tamil','Malayalam','Hindhi','Bengali','Telugu','Marathi','Urdu','Gujarati','Kannada','Odia',' Punjabi','Assamese','Maithili','BhilBhilodi','Santali','Kashmiri','Nepali','Gondi','Sindhi','Konkani','Dogri','Khandeshi','Kurukh','Tulu','MeiteManipuri','Bodo','Khasi','Mundari','English'];
         $result = MembersView::where('religion_id','<>',0)->where('country','<>','')->orderBy('profile_rate','desc')->limit(6)->get();
         $data['featured_members'] = $result;
         return view('frontend.index',$data);
@@ -108,8 +109,12 @@ class FrontendController extends Controller
         $data['countries']  = $countries;
         $data['states'] = $states;
         $data['districts'] = $districts;
+        $data['graduations'] = Graduation::lists('name','id')->toArray();
         $data['statuses'] = Status::lists('name','id')->toArray();
         $data['religions'] = Religion::lists('name','id')->toArray();
+        $data['stars'] = Star::lists('name','id')->toArray();
+        $data['moonsigns'] = Moonsign::lists('name','id')->toArray();
+        $data['zodiacsigns'] = Zodiacsign::lists('name','id')->toArray();
         $data['mother_tongue'] = ['Tamil','Malayalam','Hindhi','Bengali','Telugu','Marathi','Urdu','Gujarati','Kannada','Odia',' Punjabi','Assamese','Maithili','BhilBhilodi','Santali','Kashmiri','Nepali','Gondi','Sindhi','Konkani','Dogri','Khandeshi','Kurukh','Tulu','MeiteManipuri','Bodo','Khasi','Mundari','English'];
         $condition = [];
         $pdo = \DB::connection()->getPdo();
@@ -124,6 +129,7 @@ class FrontendController extends Controller
         if (Auth::guard('user')->check()) {
             $input['gender'] = (Auth::guard('user')->user()->gender == 'Male')?'Female':'Male';
         }
+        
         foreach ($input as $key=>$value) {
             if ($value == '') {
                 continue;
@@ -163,6 +169,7 @@ class FrontendController extends Controller
             if (Auth::guard('user')->attempt(['username' => $request->username, 'password' => $request->password])) {
                 $profile = MemberProfile::where('member_id',Auth::guard('user')->user()->id)->first();
                 Session::put('user.profile',$profile);
+                $this->_updateInterest();
                 return redirect(App::getLocale().'/profile');
             } else {
                 $errorMessage = 'Invalid Username/Password';
@@ -173,6 +180,8 @@ class FrontendController extends Controller
 
     public function logout(Request $request) {
         Auth::guard('user')->logout();
+        Session::forget('user.profile');
+        Session::forget('interested_list');
         return redirect(App::getLocale().'/login');
     }
 
@@ -284,6 +293,9 @@ class FrontendController extends Controller
         }
         $data['gender'] = ($user->gender == 'Male')? 'Female':'Male';
         MemberProfile::where('member_id',$user->id)->update(['partner_preference'=>json_encode($data)]);
+        $profile = Session::get('user.profile');
+        $profile->partner_preference = json_encode($data);
+        Session::put('user.profile',$profile);
         return new JsonResponse(array('success'=>true,'data'=>$data));
     }
 
@@ -355,13 +367,16 @@ class FrontendController extends Controller
 
     function _setProfileViewed($profile_id, $user_id) {
         if (Auth::guard('user')->check() && Auth::guard('user')->user()->id != $user_id) {
-            $alreadyViewed = MemberProfileViewed::where('member_id',$user_id)->where('viewed_member_id',Auth::guard('user')->user()->id)->count();
+            $alreadyViewed = MemberProfileViewed::where('member_id',$user_id)->where('viewed_member_id',Auth::guard('user')->user()->id)->first();
             if (!$alreadyViewed) {
                 $memberViewed = new MemberProfileViewed;
                 $memberViewed->profile_id = $profile_id;
                 $memberViewed->member_id = $user_id;
                 $memberViewed->viewed_member_id = Auth::guard('user')->user()->id;
                 $memberViewed->save();
+            } else {
+                $alreadyViewed->created_at = date('Y-m-d H:i:s');
+                $alreadyViewed->save();
             }
         }
     }
@@ -410,6 +425,136 @@ class FrontendController extends Controller
             $previousUrl = str_replace($currentBaseUrl, $newBaseUrl, $previousUrl);
         }        
         return redirect($previousUrl);
+    }
+
+    function matchingProfiles(Request $request) {
+        $profile = Session::get('user.profile');
+        $conditions = $profile->partner_preference;
+        if ($conditions) {
+            $conditions = json_decode($conditions);
+        } else {
+            $conditions = [];
+        }
+        if (Auth::guard('user')->check()) {
+            $conditions['gender'] = (Auth::guard('user')->user()->gender == 'Male')?'Female':'Male';
+        }
+        $pdo = \DB::connection()->getPdo();
+        $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, TRUE);
+        $memberView = new MembersView;
+        foreach ($conditions as $key=>$value) {
+            if (!$value) {
+                continue;
+            }
+            switch ($key) {
+                case 'age_from':
+                    $memberView = $memberView->where('age','>=',$value);
+                    break;
+                case 'age_to':
+                    $memberView = $memberView->where('age','<=',$value);
+                    break;
+                case 'height':
+                    $memberView = $memberView->where('height','>=',$value);
+                    break;
+                case 'page':
+                    break;
+                default:
+                    $memberView = $memberView->where($key,$value);
+                    break;
+            }
+        }
+        $data['members'] = $memberView->paginate(1);
+        return view('frontend.matchingProfiles',$data);
+    }
+
+    function viewedMyProfile(Request $request) {
+        $user_id = Auth::guard('user')->user()->id;
+        $pdo = \DB::connection()->getPdo();
+        $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, TRUE);
+        $memberView = new MembersView;
+        $memberView = $memberView->join('member_profile_viewed','membersview.member_id','=','member_profile_viewed.viewed_member_id')
+                ->where('member_profile_viewed.member_id',$user_id)
+                ->orderBy('member_profile_viewed.created_at','desc');
+        $data['members'] = $memberView->paginate(10);
+        return view('frontend.viewedMyProfile',$data);
+    }
+
+    function recentlyViewedProfiles(Request $request) {
+        $user_id = Auth::guard('user')->user()->id;
+        $pdo = \DB::connection()->getPdo();
+        $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, TRUE);
+        $memberView = new MembersView;
+        $memberView = $memberView->join('member_profile_viewed','membersview.member_id','=','member_profile_viewed.member_id')
+                ->where('member_profile_viewed.viewed_member_id',$user_id)
+                ->orderBy('member_profile_viewed.created_at','desc');
+        $data['members'] = $memberView->paginate(10);
+        return view('frontend.recentlyViewedProfiles',$data);
+    }
+
+    function forgotPassword(Request $request) {
+        if (Auth::guard('user')->check() == true) {
+            return redirect(App::getLocale().'/profile');
+        }
+        if ($request->isMethod('post')) {
+            $username = $request->username;
+            $member = Member::where('username',$username)->first();
+            if ($member) {
+                $privateKey = base64_encode(time().'-'.$member->email);
+                $content = $member->toArray();
+                $content['resetLink'] = asset(App::getLocale().'/resetPassword/'.$privateKey);
+                $this->_sendMail('emails.forgotPassword','Forgot password',$content,$content['email']);
+                $request->session()->flash('success_message','A reset password link has been sent to your email address');
+            } else {
+                $request->session()->flash('error_message','Kindly provide the correct username');
+            }
+        }
+        return view('frontend.forgotPassword');
+    }
+
+    function resetPassword(Request $request, $locale, $privateKey) {
+        if (Auth::guard('user')->check() == true) {
+            return redirect(App::getLocale().'/profile');
+        }
+        $privateKey = base64_decode($privateKey);
+        $privateKey = explode('-', $privateKey);
+        $email = $privateKey[1];
+        $member = Member::where('email',$email)->first();
+        if ($member) {
+            if ($request->isMethod('post')) {
+                if ($request->new_password == $request->confirm_password) {
+                    $member->password = bcrypt($request->new_password);
+                    if ($member->save()) {
+                        $request->session()->flash('success_message','Your password has been reset successfully');
+                    }
+                } else {
+                    $request->session()->flash('error_message','New Password and Confirm password does not match');
+                }
+            }
+        } else {
+            return redirect(App::getLocale())->with('error_message','Invalid Link');
+        }
+        return view('frontend.resetPassword');
+    }
+
+    function sendInterest(Request $request) {
+        $sender_id = Auth::guard('user')->user()->id;
+        $interested_id = $request->interested_id;
+        $exists = ProfileInterest::where('member_id',$sender_id)->where('interested_id',$interested_id)->count();
+        if (!$exists) {
+            $profileInterest = new ProfileInterest;
+            $profileInterest->member_id = $sender_id;
+            $profileInterest->interested_id = $interested_id;
+            $profileInterest->save();
+            $content['receiver'] = Member::where('id',$interested_id)->first();
+            $content['sender'] = Auth::guard('user')->user();
+            $this->_sendMail('emails.sendInterest','Interest',$content,$content['receiver']->email);
+        }
+        return new JsonResponse(array('success'=>true));
+    }
+
+    function _updateInterest() {
+        $sender_id = Auth::guard('user')->user()->id;
+        $interestedList = ProfileInterest::where('member_id',$sender_id)->lists('interested_id','interested_id')->toArray();
+        Session::put('interested_list', $interestedList);
     }
 
 }

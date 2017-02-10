@@ -29,6 +29,11 @@ Route::group(array('prefix' => '{locale?}'), function() {
   Route::get('contactUs','FrontendController@contactUs');
   Route::post('sendContactMail','FrontendController@sendContactMail');
   Route::get('changeLanguage/{currentPath}','FrontendController@changeLanguage');
-
+  Route::get('matchingProfiles','FrontendController@matchingProfiles');
+  Route::get('viewedMyProfile','FrontendController@viewedMyProfile');
+  Route::get('recentlyViewedProfiles','FrontendController@recentlyViewedProfiles');
+  Route::match(['get','post'],'forgotPassword','FrontendController@forgotPassword');
+  Route::match(['get','post'],'resetPassword/{privateKey}','FrontendController@resetPassword');
+  Route::post('sendInterest','FrontendController@sendInterest');
 });
 

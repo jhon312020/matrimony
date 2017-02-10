@@ -58,12 +58,12 @@
      </div>
    </div>
        <div class="inline-block">
-      <label class="gender_1">Religion :</label>
+      <label class="gender_1">Mother Tongue :</label>
       <div class="age_box1" style="max-width: 100%; display: inline-block;">
-        <select name="religion_id">
-          <option value="">* Select Religion</option>
-            @foreach ($religions as $id=>$value)
-              <option value="{{$id}}">{{$value}}</option>
+        <select name="mother_tongue">
+          <option value="">* Select Mother Tongue</option>
+            @foreach ($mother_tongue as $id=>$value)
+              <option value="{{$value}}">{{$value}}</option>
             @endforeach
         </select>
       </div>

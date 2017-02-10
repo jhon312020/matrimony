@@ -69,11 +69,8 @@
               <div class="form-group">
                 <label>Select Filter Options</label><br>
                 <input type="checkbox" name="religion" value="1" {{((bool)$setting->religion)?"checked":""}}>  RELIGION<br>
-                <input type="checkbox" name="location" value="1" {{((bool)$setting->place)?"checked":""}}> LOCATION<br>
                 <input type="checkbox" name="graduation" value="1" {{((bool)$setting->graduation)?"checked":""}}> GRADUATION<br>
                 <input type="checkbox" name="occupation" value="1" {{((bool)$setting->occupation)?"checked":""}}> OCCUPATION<br>
-                <input type="checkbox" name="age"  value="1" {{((bool)$setting->age)?"checked":""}}> AGE<br>
-                <input type="checkbox" name="star"  value="1" {{((bool)$setting->star)?"checked":""}}> STAR<br>
                 <input type="checkbox" name="moon_sign"  value="1" {{((bool)$setting->moon_sign)?"checked":""}}> MOON SIGN<br>
                 <input type="checkbox" name="zodiac_sign"  value="1" {{((bool)$setting->zodiac_sign)?"checked":""}}> ZODIAC SIGN<br>
                 <input type="checkbox" name="status"  value="1" {{((bool)$setting->status)?"checked":""}}> STATUS<br>

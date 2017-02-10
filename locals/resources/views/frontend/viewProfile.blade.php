@@ -56,6 +56,18 @@
             </tr>
             </tbody>
         </table>
+        <div>
+          <a href="{{$profile->facebook}}" class="facebook_label" style="text-align:center"><i class="fa fa-facebook fa1"></i></a>
+          <a href="{{$profile->twitter}}" class="twitter_label" style="text-align:center"><i class="fa fa-twitter fa1"></i></a>
+          <a href="{{$profile->google_plus}}" class="google_plus_label" style="text-align:center"><i class="fa fa-google-plus fa1"></i></a>
+          @if (Auth::guard('user')->check())
+            @if (!in_array($profile->member_id, Session::get('interested_list')))
+              <a class="vertical jsendInterest" href="javascript:;" data-target="{{$profile->member_id}}" data-action="{{asset(App::getLocale().'/sendInterest')}}" >Send Interest</a>
+            @else
+              <a class="vertical" href="javascript:;">Interested</a>
+            @endif
+          @endif
+        </div>
       </div>
       <div class="clearfix"> </div>
     </div>

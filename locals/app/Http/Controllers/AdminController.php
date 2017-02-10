@@ -132,7 +132,7 @@ class AdminController extends Controller
                 $request->session()->flash('error_message','Kindly fill all the fields');
             }
         } else {
-            $request->name = $role->name;    
+            $request->name = $role->name;
         }
         return view('admin.Roles.edit',array('request'=>$request));
     }

@@ -33,17 +33,27 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="#"></a>
-       </div> 
+       </div>
+
        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
             <ul class="nav navbar-nav nav_1">
                 <li><a href="{{asset(App::getLocale())}}">Home</a></li>
+                @if (Auth::guard('user')->check())
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Matches<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="{{asset(App::getLocale().'/matchingProfiles')}}">Matching profiles</a></li>
+                      <li><a href="{{asset(App::getLocale().'/viewedMyProfile')}}">Who viewed my profile</a></li>
+                    </ul>
+                  </li>
+                @endif 
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{asset(App::getLocale().'/search')}}">Regular Search</a></li>
+                    <li><a href="{{asset(App::getLocale().'/search')}}">Regular search</a></li>
                     @if(Auth::guard('user')->check())
-                      <!-- <li><a href="{{asset(App::getLocale().'/search/recent')}}">Recently Viewed Profiles</a></li> -->
+                      <li><a href="{{asset(App::getLocale().'/recentlyViewedProfiles')}}">Recently Viewed Profiles</a></li>
                     @endif
                   </ul>
                 </li>

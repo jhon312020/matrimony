@@ -29,7 +29,9 @@
                     <th>Email</th>
                     <th>Gender</th>
                     <th>Age</th>
-                    <th>Rate</th>
+                    @if (in_array('setRating',Session::get('role_permission')))
+                      <th>Rate</th>
+                    @endif
                     <th>Manage</th>
                   </tr>
               </thead>
@@ -46,12 +48,14 @@
                     $from_date = new DateTime($member->date_of_birth);
                     $to_date = new DateTime('today');
                     echo $to_date->diff($from_date)->y;
-                    echo '</td>';                    
-                    echo '<td>';
-                ?>
-                    <div class="rating" data-member-id="{{$member->id}}" data-rating="{{$member->profile_rate/100*5}}">
-                <?php
                     echo '</td>';
+                ?>
+                @if (in_array('setRating',Session::get('role_permission')))
+                    <td>
+                    <div class="rating" data-member-id="{{$member->id}}" data-rating="{{$member->profile_rate/100*5}}"></div>
+                    </td>
+                @endif
+                <?php
                     echo '<td>';
                  ?>
                     <a href="javascript:;" data-target="{{$member->id}}" class="view-member-class"> <i class="fa fa-eye"></i> View more</a><br/>

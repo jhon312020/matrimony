@@ -39,7 +39,11 @@ class AuthController extends Controller
                     $actionIds = explode(',', $actionIds->permissions);
                     $pages = Page::whereIn('id',$actionIds)->lists('action','action')->toArray();
                     Session::put('role_permission',$pages);
+                } else {
+                    $pages = Page::lists('action','action')->toArray();
+                    Session::put('role_permission',$pages);
                 }
+                Session::put('role_id',$role_id);
                 return redirect('admin/dashboard');
             } else {
                 $errorMessage = 'Invalid Username/Password';

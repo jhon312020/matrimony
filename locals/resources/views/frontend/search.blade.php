@@ -10,7 +10,7 @@
         <li class="current-page">Regular Search</li>
      </ul>
    </div>
-
+<?php $loggedIn =  Auth::guard('user')->check(); ?>
 <div class="col-md-9 search_left">
   <form method="POST" action="{{asset(App::getLocale().'/search')}}">
   @if (Auth::guard('user')->check())
@@ -36,19 +36,21 @@
     <div class="clearfix"> </div>
   </div>
   @endif
-  <div class="form_but1">
-  <label class="col-sm-5 control-lable1" for="sex">Status : </label>
-  <div class="col-sm-7 form_radios">
-    @foreach ($statuses as $key=>$value)
-      @if (isset($input['status_id']) && in_array($key,$input['status_id']))
-        <input type="checkbox" class="radio_1" name="status_id[]" value="{{$key}}" checked /> {{$value}} &nbsp;&nbsp;
-      @else
-        <input type="checkbox" class="radio_1" name="status_id[]" value="{{$key}}" /> {{$value}} &nbsp;&nbsp;
-      @endif
-    @endforeach
-  </div>
-  <div class="clearfix"> </div>
-  </div>
+  @if ($loggedIn || (!$loggedIn && Session::get('settings')->status))
+    <div class="form_but1">
+    <label class="col-sm-5 control-lable1" for="sex">Status : </label>
+    <div class="col-sm-7 form_radios">
+      @foreach ($statuses as $key=>$value)
+        @if (isset($input['status_id']) && in_array($key,$input['status_id']))
+          <input type="checkbox" class="radio_1" name="status_id[]" value="{{$key}}" checked /> {{$value}} &nbsp;&nbsp;
+        @else
+          <input type="checkbox" class="radio_1" name="status_id[]" value="{{$key}}" /> {{$value}} &nbsp;&nbsp;
+        @endif
+      @endforeach
+    </div>
+    <div class="clearfix"> </div>
+    </div>
+  @endif
   <div class="form_but1">
     <label class="col-sm-5 control-lable1" for="sex">Country : </label>
     <div class="col-sm-7 form_radios">
@@ -121,6 +123,8 @@
     </div>
     <div class="clearfix"> </div>
   </div>
+
+  @if ($loggedIn || (!$loggedIn && Session::get('settings')->religion))
   <div class="form_but1">
     <label class="col-sm-5 control-lable1" for="sex">Religion : </label>
     <div class="col-sm-7 form_radios">
@@ -139,6 +143,92 @@
     </div>
     <div class="clearfix"> </div>
   </div>
+  @endif
+
+  @if ($loggedIn || (!$loggedIn && Session::get('settings')->graduation))
+  <div class="form_but1">
+    <label class="col-sm-5 control-lable1" for="sex">Graduation : </label>
+    <div class="col-sm-7 form_radios">
+      <div class="select-block1">
+        <select name="graduation_id">
+            <option value="">Graduation</option>
+            @foreach ($graduations as $key=>$value)
+              @if (isset($input['graduation_id']) && $input['graduation_id'] == $value)
+                <option value="{{$key}}" selected>{{$value}}</option>
+              @else
+                <option value="{{$key}}">{{$value}}</option>
+              @endif
+            @endforeach
+        </select>
+      </div>
+    </div>
+    <div class="clearfix"> </div>
+  </div>
+  @endif
+
+  
+  <div class="form_but1">
+    <label class="col-sm-5 control-lable1" for="sex">Star : </label>
+    <div class="col-sm-7 form_radios">
+      <div class="select-block1">
+        <select name="star_id">
+            <option value="">Star</option>
+            @foreach ($stars as $key=>$value)
+              @if (isset($input['star_id']) && $input['star_id'] == $key)
+                <option value="{{$key}}" selected>{{$value}}</option>
+              @else
+                <option value="{{$key}}">{{$value}}</option>
+              @endif
+            @endforeach
+        </select>
+      </div>
+    </div>
+    <div class="clearfix"> </div>
+  </div>
+  
+
+  @if ($loggedIn || (!$loggedIn && Session::get('settings')->moon_sign))
+  <div class="form_but1">
+    <label class="col-sm-5 control-lable1" for="sex">Moon sign : </label>
+    <div class="col-sm-7 form_radios">
+      <div class="select-block1">
+        <select name="moonsign_id">
+            <option value="">Moon sign</option>
+            @foreach ($moonsigns as $key=>$value)
+              @if (isset($input['moonsign_id']) && $input['moonsign_id'] == $key)
+                <option value="{{$key}}" selected>{{$value}}</option>
+              @else
+                <option value="{{$key}}">{{$value}}</option>
+              @endif
+            @endforeach
+        </select>
+      </div>
+    </div>
+    <div class="clearfix"> </div>
+  </div>
+  @endif
+
+  @if ($loggedIn || (!$loggedIn && Session::get('settings')->zodiac_sign))
+  <div class="form_but1">
+    <label class="col-sm-5 control-lable1" for="sex">Zodiac sign : </label>
+    <div class="col-sm-7 form_radios">
+      <div class="select-block1">
+        <select name="zodiacsign_id">
+            <option value="">Zodiac sign</option>
+            @foreach ($zodiacsigns as $key=>$value)
+              @if (isset($input['zodiacsign_id']) && $input['zodiacsign_id'] == $key)
+                <option value="{{$key}}" selected>{{$value}}</option>
+              @else
+                <option value="{{$key}}">{{$value}}</option>
+              @endif
+            @endforeach
+        </select>
+      </div>
+    </div>
+    <div class="clearfix"> </div>
+  </div>
+  @endif
+
   <div class="form_but1">
     <label class="col-sm-5 control-lable1" for="sex">Mother Tongue : </label>
     <div class="col-sm-7 form_radios">
@@ -157,6 +247,7 @@
     </div>
     <div class="clearfix"> </div>
   </div>
+  
   <div class="form_but1">
   <label class="col-sm-5 control-lable1" for="sex">Age : </label>
   <div class="col-sm-7 form_radios">
@@ -170,6 +261,7 @@
   </div>
   <div class="clearfix"> </div>
   </div>
+  
   <div class="form-actions" style="float:right;padding-right:20px;">
     <input type="submit" value="Search" class="btn_1 submit">
   </div>
