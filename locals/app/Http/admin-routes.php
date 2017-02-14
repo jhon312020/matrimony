@@ -104,3 +104,5 @@ Route::get('/dev/deletePage/{id}','DeveloperController@deletePage');
 
 
 Route::match(['get','post'],'/admin/rolePermission/{id}','AdminController@rolePermission');
+
+Route::get('/admin/paidMemberList','AdminController@paidMemberList');

@@ -12,6 +12,16 @@
    </div>
 <?php $loggedIn =  Auth::guard('user')->check(); ?>
 <div class="col-md-9 search_left">
+  <div class="form_outer_div hide_form" >
+  <div class="form_inner_header">
+    <div class="col-sm-5" style="text-align: left;padding-left:0px;">
+      Search Form
+    </div>
+    <div class="col-sm-7" style="text-align: right;padding-right:10px;">
+      <i class="minimize-form fa fa-minus hide" data-toggle="tooltip" title="Minimize"></i>
+      <i class="maximize-form fa fa-plus" data-toggle="tooltip" title="Maximize"> </i>
+    </div>
+  </div>
   <form method="POST" action="{{asset(App::getLocale().'/search')}}">
   @if (Auth::guard('user')->check())
     <input type="hidden" value="{{(Auth::guard('user')->user()->gender == 'Male')?'Female':'Male'}}" name="gender" />
@@ -267,6 +277,7 @@
   </div>
   <div class="clearfix"> </div>
  </form>
+ </div> <!-- form outer div -->
  <div class="paid_people">
    <h1>People</h1>
    <?php

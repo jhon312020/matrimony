@@ -35,5 +35,7 @@ Route::group(array('prefix' => '{locale?}'), function() {
   Route::match(['get','post'],'forgotPassword','FrontendController@forgotPassword');
   Route::match(['get','post'],'resetPassword/{privateKey}','FrontendController@resetPassword');
   Route::post('sendInterest','FrontendController@sendInterest');
+  Route::get('selectPackage','FrontendController@upgrade');
+  Route::post('purchase','FrontendController@purchase');
 });
 

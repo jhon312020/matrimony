@@ -12,7 +12,11 @@
    </div>
    <div class="profile">
      <div class="col-md-8 profile_left">
-      <h2>Profile Id : {{$user->rand_id}}</h2>
+      <h2>Profile Id : {{$user->rand_id}}
+        @if (Session::get('purchasedPackage'))
+          <span class="blink">{{Session::get('purchasedPackage')->package->name}}</span>
+        @endif
+      </h2>
       <div class="col_3">
       <div class="col-sm-4 row_2" style="position:relative">
           @if ($user->avatar)
@@ -130,4 +134,23 @@
       </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+$('.blink').each(function() {
+    var elem = $(this);
+    $(this).css('color','#ff7700');
+    /*$(this).css('color','white');
+    $(this).css('border-radius','4px');
+    $(this).css('padding','5px');*/
+    setInterval(function() {
+        if (elem.css('visibility') == 'hidden') {
+            elem.css('visibility', 'visible');
+        } else {
+            elem.css('visibility', 'hidden');
+        }    
+    }, 500);
+});
+</script>
 @endsection

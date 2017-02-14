@@ -60,7 +60,7 @@
           <a href="{{$profile->facebook}}" class="facebook_label" style="text-align:center"><i class="fa fa-facebook fa1"></i></a>
           <a href="{{$profile->twitter}}" class="twitter_label" style="text-align:center"><i class="fa fa-twitter fa1"></i></a>
           <a href="{{$profile->google_plus}}" class="google_plus_label" style="text-align:center"><i class="fa fa-google-plus fa1"></i></a>
-          @if (Auth::guard('user')->check())
+          @if (Auth::guard('user')->check() && Auth::guard('user')->user()->id != $profile->member_id)
             @if (!in_array($profile->member_id, Session::get('interested_list')))
               <a class="vertical jsendInterest" href="javascript:;" data-target="{{$profile->member_id}}" data-action="{{asset(App::getLocale().'/sendInterest')}}" >Send Interest</a>
             @else

@@ -30,6 +30,7 @@ use App\Models\MembersView;
 use App\Models\MemberProfileViewed;
 use App\Models\PageContent;
 use App\Models\ProfileInterest;
+use App\Models\PurchaseList;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -48,6 +49,7 @@ class FrontendController extends Controller
         parent::init();
         $this->middleware('locale');
         $this->middleware('auth:user',['except'=>['index', 'viewRegister','register','login','logout','search','aboutUs','contactUs','sendContactMail','changeLanguage','forgotPassword','resetPassword']]);
+        $this->_updatePackageInfo();
     }
     
     public function index(Request $request) {
@@ -55,6 +57,8 @@ class FrontendController extends Controller
         $data['statuses'] = Status::lists('name','id')->toArray();
         $data['stars'] = Star::lists('name','id')->toArray();
         $data['mother_tongue'] = ['Tamil','Malayalam','Hindhi','Bengali','Telugu','Marathi','Urdu','Gujarati','Kannada','Odia',' Punjabi','Assamese','Maithili','BhilBhilodi','Santali','Kashmiri','Nepali','Gondi','Sindhi','Konkani','Dogri','Khandeshi','Kurukh','Tulu','MeiteManipuri','Bodo','Khasi','Mundari','English'];
+        $pdo = \DB::connection()->getPdo();
+        $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, TRUE);
         $result = MembersView::where('religion_id','<>',0)->where('country','<>','')->orderBy('profile_rate','desc')->limit(6)->get();
         $data['featured_members'] = $result;
         return view('frontend.index',$data);
@@ -182,6 +186,7 @@ class FrontendController extends Controller
         Auth::guard('user')->logout();
         Session::forget('user.profile');
         Session::forget('interested_list');
+        Session::forget('purchasedPackage');
         return redirect(App::getLocale().'/login');
     }
 
@@ -431,7 +436,7 @@ class FrontendController extends Controller
         $profile = Session::get('user.profile');
         $conditions = $profile->partner_preference;
         if ($conditions) {
-            $conditions = json_decode($conditions);
+            $conditions = json_decode($conditions,true);
         } else {
             $conditions = [];
         }
@@ -555,6 +560,40 @@ class FrontendController extends Controller
         $sender_id = Auth::guard('user')->user()->id;
         $interestedList = ProfileInterest::where('member_id',$sender_id)->lists('interested_id','interested_id')->toArray();
         Session::put('interested_list', $interestedList);
+    }
+
+    function upgrade() {
+        $data['packages'] = Package::all();
+        return view('frontend.upgrade',$data);
+    }
+
+    function purchase(Request $request) {
+        $user_id = Auth::guard('user')->user()->id;
+        $package = Package::where('id',$request->package_id)->first();
+        if ($package) {
+            $purchaseList = new PurchaseList();
+            $purchaseList->member_id = $user_id;
+            $purchaseList->package_id = $request->package_id;
+            $today = date('Y-m-d');
+            $purchaseList->expired_at = date('Y-m-d', strtotime($today. ' + '.$package->period.' days'));
+            $purchaseList->save();
+            $purchaseList->package = $package;
+            Session::put('purchasedPackage',$purchaseList);
+            return redirect(App::getLocale().'/profile')->with('success_message','You have been purchased successfully. Enjoy your package!');
+        }
+    }
+
+    function _updatePackageInfo() {
+        if (Auth::guard('user')->check()) {
+            $member_id = Auth::guard('user')->user()->id;
+            $purchaseList = PurchaseList::where('member_id',$member_id)->whereDate('expired_at','>',date('Y-m-d'))->orderBy('created_at','desc')->first();
+            if ($purchaseList) {
+                $purchaseList->package = Package::find($purchaseList->package_id);
+                Session::put('purchasedPackage',$purchaseList);
+            } else {
+                Session::forget('purchasedPackage');
+            }
+        }
     }
 
 }

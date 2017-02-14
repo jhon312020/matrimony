@@ -5,19 +5,19 @@
         <div class="container">
            <div class="navigation">
              <nav id="colorNav">
-         <ul>
-        <li class="green">
-          <a href="#" class="icon-home"></a>
-          <ul>
-          @if(Auth::guard('user')->check())
-            <li><a href="{{asset(App::getLocale().'/logout')}}">Logout</a></li>
-          @else
-            <li><a href="{{asset(App::getLocale().'/login')}}">Login</a></li>
-            <li><a href="{{asset(App::getLocale().'/register')}}">Register</a></li>
-          @endif
-          </ul>
-        </li>
-         </ul>
+               <ul>
+              <li class="green">
+                <a href="#" class="icon-home"></a>
+                <ul>
+                @if(Auth::guard('user')->check())
+                  <li><a href="{{asset(App::getLocale().'/logout')}}">{{trans('messages.Logout')}}</a></li>
+                @else
+                  <li><a href="{{asset(App::getLocale().'/login')}}">{{trans('messages.Login')}}</a></li>
+                  <li><a href="{{asset(App::getLocale().'/register')}}">{{trans('messages.Register')}}</a></li>
+                @endif
+                </ul>
+              </li>
+               </ul>
              </nav>
            </div>
            <a class="brand" href="{{asset(App::getLocale())}}"><img src="{{asset('assets/front-end/images/logo.png')}}" alt="logo"></a>
@@ -26,11 +26,8 @@
  
      <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header nav_2">
-          <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">Menu
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+          <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs"><span class="sr-only">Toggle navigation</span>
+            <span class="fa fa-bars"></span>
           </button>
           <a class="navbar-brand" href="#"></a>
        </div>
@@ -38,34 +35,34 @@
        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
             <ul class="nav navbar-nav nav_1">
-                <li><a href="{{asset(App::getLocale())}}">Home</a></li>
+                <li><a href="{{asset(App::getLocale())}}">{{trans('messages.Home')}}</a></li>
                 @if (Auth::guard('user')->check())
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Matches<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{trans('Matches')}}<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="{{asset(App::getLocale().'/matchingProfiles')}}">Matching profiles</a></li>
-                      <li><a href="{{asset(App::getLocale().'/viewedMyProfile')}}">Who viewed my profile</a></li>
+                      <li><a href="{{asset(App::getLocale().'/matchingProfiles')}}">{{trans('messages.Matching profiles')}}</a></li>
+                      <li><a href="{{asset(App::getLocale().'/viewedMyProfile')}}">{{trans('messages.Who viewed my profile')}}</a></li>
                     </ul>
                   </li>
                 @endif 
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search<span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{trans('messages.Search')}}<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{asset(App::getLocale().'/search')}}">Regular search</a></li>
+                    <li><a href="{{asset(App::getLocale().'/search')}}">{{trans('messages.Regular search')}}</a></li>
                     @if(Auth::guard('user')->check())
-                      <li><a href="{{asset(App::getLocale().'/recentlyViewedProfiles')}}">Recently Viewed Profiles</a></li>
+                      <li><a href="{{asset(App::getLocale().'/recentlyViewedProfiles')}}">{{trans('messages.Recently Viewed Profiles')}}</a></li>
                     @endif
                   </ul>
                 </li>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Language<span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{trans('messages.Language')}}<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{asset('ta/changeLanguage/'.App::getLocale())}}">Tamil</a></li>
-                    <li><a href="{{asset('en/changeLanguage/'.App::getLocale())}}">English</a></li>
+                    <li><a href="{{asset('ta/changeLanguage/'.App::getLocale())}}">{{trans('messages.Tamil')}}</a></li>
+                    <li><a href="{{asset('en/changeLanguage/'.App::getLocale())}}">{{trans('messages.English')}}</a></li>
                   </ul>
                 </li>
-                <li><a href="{{asset(App::getLocale().'/aboutUs')}}">About Us</a></li>
-                <li><a href="{{asset(App::getLocale().'/contactUs')}}">Contact Us</a></li>
+                <li><a href="{{asset(App::getLocale().'/aboutUs')}}">{{trans('messages.About Us')}}</a></li>
+                <li><a href="{{asset(App::getLocale().'/contactUs')}}">{{trans('messages.Contact Us')}}</a></li>
                 @if(Auth::guard('user')->check())
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -84,9 +81,27 @@
                       <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="{{asset(App::getLocale().'/profile')}}">View Profile</a></li>
-                      <li><a href="{{asset(App::getLocale().'/changePassword')}}">Change Password</a></li>
-                      <li><a href="{{asset(App::getLocale().'/logout')}}">Logout</a></li>
+                      <li><a href="{{asset(App::getLocale().'/profile')}}">{{trans('messages.View Profile')}}</a></li>
+                      @if (Session::get('purchasedPackage'))
+                        <li>
+                          <?php
+                            $datetime1 = new DateTime(Session::get('purchasedPackage')->expired_at);
+                            $datetime2 = new DateTime(date('Y-m-d'));
+                            $interval = $datetime1->diff($datetime2);
+                            if (($interval->days-1) >= 0) {
+                              echo '<a href="javascript:;">'.($interval->days-1).' days left<span class="blink"> (Premium) </span></a>';
+                            } else {
+                              ?>
+                                <a href="{{asset(App::getLocale().'/selectPackage')}}">{{trans('messages.Premium')}}</a>
+                              <?php
+                            }
+                          ?>
+                        </a></li>
+                      @else
+                        <li><a href="{{asset(App::getLocale().'/selectPackage')}}">{{trans('messages.Premium')}}</a></li>
+                      @endif
+                      <li><a href="{{asset(App::getLocale().'/changePassword')}}">{{trans('messages.Change Password')}}</a></li>
+                      <li><a href="{{asset(App::getLocale().'/logout')}}">{{trans('messages.Logout')}}</a></li>
                     </ul>
                   </li>
                 @else

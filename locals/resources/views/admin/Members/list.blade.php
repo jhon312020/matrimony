@@ -32,7 +32,6 @@
                     @if (in_array('setRating',Session::get('role_permission')))
                       <th>Rate</th>
                     @endif
-                    <th>Manage</th>
                   </tr>
               </thead>
               <tbody>
@@ -50,20 +49,13 @@
                     echo $to_date->diff($from_date)->y;
                     echo '</td>';
                 ?>
-                @if (in_array('setRating',Session::get('role_permission')))
+                  @if (in_array('setRating',Session::get('role_permission')))
                     <td>
                     <div class="rating" data-member-id="{{$member->id}}" data-rating="{{$member->profile_rate/100*5}}"></div>
                     </td>
-                @endif
-                <?php
-                    echo '<td>';
-                 ?>
-                    <a href="javascript:;" data-target="{{$member->id}}" class="view-member-class"> <i class="fa fa-eye"></i> View more</a><br/>
-                  <?php
-                    echo '</td>';
-                    echo '</tr>';
-                  }
-                ?>
+                  @endif
+                  </tr>
+                <?php } ?>
               </tbody>
             </table>
           </div><!-- /.box-body -->

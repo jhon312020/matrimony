@@ -25,6 +25,8 @@ use App\Models\Setting;
 use App\Models\Member;
 use App\Models\PageContent;
 use App\Models\Page;
+use App\Models\PurchaseList;
+use App\Models\MembersView;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -49,6 +51,14 @@ class AdminController extends Controller
         $data['userCount'] = User::count();
         $data['packageCount'] = Package::count();
         $data['memberCount'] = Member::count();
+        $pdo = \DB::connection()->getPdo();
+        $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, TRUE);
+        $data['members'] = MembersView::orderBy('created_at','desc')->limit(10)->get();
+        $data['purchaseList'] = \DB::table('purchase_list')->leftJoin('members','members.id', '=','purchase_list.member_id')
+                        ->leftjoin('packages','packages.id','=','purchase_list.package_id')
+                        ->select('purchase_list.created_at as purchase_date','packages.name as package_name','members.username as name','members.avatar as avatar','packages.price as price')
+                        ->orderBy('purchase_list.created_at','desc')->limit(10)->get();
+        $data['revenue'] = \DB::table('purchase_list')->join('packages','packages.id','=','purchase_list.package_id')->select(\DB::raw('SUM(packages.price) as total_revenue'))->get();
         return view('admin.dashboard',$data);
     }
 
@@ -1047,5 +1057,14 @@ class AdminController extends Controller
         }
         return view('admin.Roles.role_permission', array('request'=>$request, 'inputs'=>$inputs, 'pageList'=>$pageList));
     }
+
+    function paidMemberList() {
+        $data['paidLists'] = \DB::table('purchase_list')->leftJoin('members','members.id', '=','purchase_list.member_id')
+                        ->leftjoin('packages','packages.id','=','purchase_list.package_id')
+                        ->select('purchase_list.created_at as purchase_date','packages.name as package_name','members.username as username','packages.price as price','members.gender as gender','packages.period as period')
+                        ->orderBy('purchase_list.created_at','desc')->get();
+        return view('admin.Payment.list', $data);
+    }
+
 
 }

@@ -32,13 +32,18 @@
         </li>
       @endif
 
-      @if (in_array('memberList',$role_permission))
+      @if (in_array('memberList',$role_permission) || in_array('paidMemberList',$role_permission))
       <li class="treeview {{(in_array($action,array('memberList')))?'active':''}}">
         <a href="javascript:;">
           <i class="fa fa-book"></i> <span>Members</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{ asset('admin/memberList') }}"><i class="fa fa-circle-o"></i> Member list</a></li>
+          @if (in_array('memberList',$role_permission))
+            <li><a href="{{ asset('admin/memberList') }}"><i class="fa fa-circle-o"></i> Member list</a></li>
+          @endif
+          @if (in_array('paidMemberList',$role_permission))
+            <li><a href="{{ asset('admin/paidMemberList') }}"><i class="fa fa-circle-o"></i> Paid Member list</a></li>
+          @endif
         </ul>
       </li>
       @endif

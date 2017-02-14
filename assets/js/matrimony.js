@@ -7,6 +7,19 @@ $(document).ready(function(){
 		displayAlert('For Your Information ',$('#error_status').val());
 	}
 
+	$(document).on('click','.minimize-form', function(){
+		alert($(this).parent().parent().parent().html());
+		$(this).parent().parent().parent().find('.show_form').removeClass('show_form').addClass('hide_form');
+		$(this).addClass('hide');
+		$('.maximize-form').removeClass('hide');
+	});
+
+	$(document).on('click','.maximize-form', function(){
+		$(this).parent().parent().parent().find('.hide_form').removeClass('hide_form').addClass('show_form');
+		$(this).addClass('hide');
+		$('.minimize-form').addClass('hide');
+	});
+
 	$(".data-table").DataTable();
     
 	$.ajaxSetup({

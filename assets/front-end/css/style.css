@@ -3535,3 +3535,61 @@ select, .select-block1 select, input[type=text], input[type=password], input[typ
 .image-upload-overlay:hover a {
   color:#ffa417 !important;
 }
+.form_outer_div {
+  background-color:white;
+  border-color:#333;
+  padding:10px;
+}
+
+.form_outer_div form {
+  border-top:1px solid #ccc;
+  padding-top:15px;
+}
+
+.hide_form form {
+  display: none;
+}
+
+.form_inner_header {
+  font-weight: bold;
+  margin-bottom:25px;
+}
+
+.minimize-form {
+  cursor: pointer;
+}
+
+.maximize-form {
+  cursor: pointer;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+button.order-btn {
+    color: #fff;
+    padding: 10px 20px;
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #ff7700;
+    font-size: 13px;
+    width: 55%;
+    margin: 1em auto auto auto;
+    border: none;
+    outline: none;
+}
+
+@media (max-width: 1024px) {
+  button.order-btn {
+      width: 60%;
+  }  
+}
+
+

@@ -7,6 +7,20 @@ $(document).ready(function(){
     displayAlert('For Your Information ',$('#error_status').val());
   }
 
+  $('[data-toggle="tooltip"]').tooltip();
+
+  $(document).on('click','.minimize-form', function(){
+    $(this).parent().parent().parent().find('form').hide();
+    $(this).addClass('hide');
+    $('.maximize-form').removeClass('hide');
+  });
+
+  $(document).on('click','.maximize-form', function(){
+    $(this).parent().parent().parent().find('form').show();
+    $(this).addClass('hide');
+    $('.minimize-form').removeClass('hide');
+  });
+
   $(document).on('click','.jsendInterest',function(){
     element = $(this);
     data = {interested_id:$(this).attr('data-target')};
@@ -28,7 +42,7 @@ $(document).ready(function(){
     }); 
   });
 
-    $(".dropdown").hover(            
+    $(".dropdown").focus(
         function() {
             $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
             $(this).toggleClass('open');        
