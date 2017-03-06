@@ -29,13 +29,13 @@
   <tr class="opened">
     <td class="day_label">Religion :</td>
     <td class="day_value preference_religion_id_label">
-      {{(isset($preference->religion_id) && isset($religions[$preference->religion_id]))?$religions[$preference->status_id]:"Doesn't Matter"}}
+      {{(isset($preference->religion_id) && isset($religions[$preference->religion_id]))?$religions[$preference->religion_id]:"Doesn't Matter"}}
     </td>
   </tr>
   <tr class="opened">
     <td class="day_label">Caste :</td>
     <td class="day_value preference_caste_id_label">
-      {{(isset($preference->caste_id) && isset($castes[$preference->caste_id]))?$castes[$preference->status_id]:"Doesn't Matter"}}
+      {{(isset($preference->caste_id) && isset($castes[$preference->caste_id]))?$castes[$preference->caste_id]:"Doesn't Matter"}}
     </td>
   </tr>
   <tr class="opened">

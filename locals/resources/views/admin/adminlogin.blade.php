@@ -33,7 +33,7 @@
           <span class="logo-lg"> <img src="{{asset('assets/images/logo.png')}}"/ ></span>
       </div><!-- /.login-logo -->
       <div class="login-logo">
-          <span class="logo-lg" style="color:white"><h2>Matrimonial Site Logo</h2></span>
+          <span class="logo-lg" style="color:white"><h2>Tamil Mudhaliyar Matrimony</h2></span>
       </div>
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
@@ -43,7 +43,7 @@
               <div class="alert alert-danger"><b>{{$errorMessage}}</b></div>
           @endif
           <div class="form-group has-feedback">
-            <input type="text" placeholder="Username" name="email"  class="form-control" required>
+            <input type="text" placeholder="Email" name="email"  class="form-control" required>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">

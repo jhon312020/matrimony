@@ -3,17 +3,15 @@
         <div class="col-md-4 col_2">
           <h4>About Us</h4>
           @if (App::getLocale() == 'en')
-            <?php echo Session::get('aboutUs')->en_content; ?>
+            {{ str_limit(strip_tags(Session::get('aboutUs')->en_content),100,'...') }}
           @else
-            <?php echo Session::get('aboutUs')->ta_content; ?>
+            {{ str_limit(strip_tags(Session::get('aboutUs')->ta_content),100,'...') }}
           @endif
         </div>
         <div class="col-md-2 col_2">
           <h4>Help & Support</h4>
           <ul class="footer_links">
-            <li><a href="#">24x7 Live help</a></li>
             <li><a href="#">Contact us</a></li>
-            <li><a href="#">Feedback</a></li>
             <li><a href="#">FAQs</a></li>
           </ul>
         </div>
@@ -22,7 +20,6 @@
           <ul class="footer_links">
             <li><a href="#">Privacy Policy</a></li>
             <li><a href="#">Terms and Conditions</a></li>
-            <li><a href="#">Services</a></li>
           </ul>
         </div>
         <div class="col-md-2 col_2">
@@ -36,7 +33,7 @@
         </div>
         <div class="clearfix"> </div>
         <div class="copy">
-           <p>Copyright © 2015 Marital . All Rights Reserved  | Design by <a href="http://megamind.com/" target="_blank">Megamind</a> </p>
+           <p>Copyright © {{date('Y')}} Tamil Mudhaliyar Matrimony. All Rights Reserved  | Design by <a href="http://megamind.com/" target="_blank">Megamind</a> </p>
           </div>
       </div>
 </div>

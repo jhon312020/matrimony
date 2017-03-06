@@ -4,7 +4,8 @@
 <div class="banner">
   <div class="container">
     <div class="banner_info">
-      <h3>Millions of verified Members</h3>
+      <!-- <h3>Millions of verified Members</h3> -->
+      <h3 style="font-size:30px;">தமிழ் முதலியார் உங்களை அன்போடு வரவேற்கிறோம் </h3>
       @if(!Auth::guard('user')->check())
       <a href="{{asset(App::getLocale().'/register')}}" class="hvr-shutter-out-horizontal">Create your Profile</a>
       @endif

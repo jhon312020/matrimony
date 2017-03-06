@@ -1,6 +1,6 @@
 @foreach ($members as $member)
 <div class="profile_top">
-  <h2>{{$member->rand_id}} | {{$member->name or $member->username}}</h2>
+  <h2>{{$member->rand_id}} | {{($member->name)? $member->name:$member->username}}</h2>
   <div class="col-sm-3 profile_left-top">
     @if ($member->avatar && file_exists('assets/profileimages/'.$member->avatar))
       <img src="{{asset('assets/profileimages/'.$member->avatar)}}" alt="" class="hover-animation image-zoom-in img-responsive" />
