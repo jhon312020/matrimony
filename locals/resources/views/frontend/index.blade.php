@@ -2,6 +2,20 @@
 
 @section('content')
 <div class="banner">
+  <div class="homeslider">
+    <?php 
+      $images = scandir('assets/front-end/images/homeslider');
+    ?>
+    <ul class="slides">
+      @foreach ($images as $image)
+        @if ($image != '.' && $image !='..')
+          <li>
+            <img style="width:100%;height:450px;" src="{{asset('assets/front-end/images/homeslider/'.$image)}}" alt=""/>
+          </li>
+        @endif
+      @endforeach
+    </ul>
+  </div>
   <div class="container">
     <div class="banner_info">
       <!-- <h3>Millions of verified Members</h3> -->
@@ -30,7 +44,7 @@
        </div>
       </div>
         <div class="inline-block">
-      <label class="gender_1">Recidency In :</label>
+      <label class="gender_1">Residency In :</label>
       <div class="age_box1" style="max-width: 100%; display: inline-block;">
           <select name="country_of_residency">
             <option value="">* Select Country</option>
@@ -175,4 +189,35 @@
       <div class="clearfix"> </div>
   </div>
 </div>
+<!-- FlexSlider -->
+  <link href="{{asset('assets/front-end/css/flexslider.css')}}" rel='stylesheet' type='text/css' />
+  <script defer src="{{asset('assets/front-end/js/jquery.flexslider.js')}}"></script>
+  <script type="text/javascript">
+  /*$(function(){
+    SyntaxHighlighter.all();
+  });*/
+  $(window).load(function(){
+    $('.homeslider').flexslider({
+    animation: "slide",
+    start: function(slider){
+      $('body').removeClass('loading');
+    }
+    });
+  });
+  </script>
+  <style>
+  .banner {
+    overflow:hidden;
+  }
+  .homeslider {
+    position: absolute;
+    z-index: 0;
+    height: 450px;
+    overflow:hidden;
+  }
+  .container, .profile_search {
+    position: relative;
+  }
+  </style>
+<!-- FlexSlider -->
 @endsection

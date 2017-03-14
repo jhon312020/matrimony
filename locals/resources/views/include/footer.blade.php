@@ -33,7 +33,7 @@
         </div>
         <div class="clearfix"> </div>
         <div class="copy">
-           <p>Copyright © {{date('Y')}} Tamil Mudhaliyar Matrimony. All Rights Reserved  | Design by <a href="http://megamind.com/" target="_blank">Megamind</a> </p>
+           <p>Copyright © {{date('Y')}} Tamil Mudaliyar Matrimony. All Rights Reserved  | Design by <a href="http://megamind.com/" target="_blank">Megamind</a> </p>
           </div>
       </div>
 </div>

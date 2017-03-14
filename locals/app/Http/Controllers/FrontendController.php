@@ -53,10 +53,10 @@ class FrontendController extends Controller
     }
     
     public function index(Request $request) {
-        $data['countries'] = Location::groupBy('country')->lists('country','country')->toArray();
         $data['statuses'] = Status::lists('name','id')->toArray();
         $data['stars'] = Star::lists('name','id')->toArray();
         $data['mother_tongue'] = ['Tamil','Malayalam','Hindhi','Bengali','Telugu','Marathi','Urdu','Gujarati','Kannada','Odia',' Punjabi','Assamese','Maithili','BhilBhilodi','Santali','Kashmiri','Nepali','Gondi','Sindhi','Konkani','Dogri','Khandeshi','Kurukh','Tulu','MeiteManipuri','Bodo','Khasi','Mundari','English'];
+        $data['countries'] = \DB::table('countries')->lists('country_name','country_name');
         $pdo = \DB::connection()->getPdo();
         $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, TRUE);
         $result = MembersView::where('religion_id','<>',0)->where('country','<>','')->orderBy('profile_rate','desc')->limit(6)->get();
@@ -592,6 +592,31 @@ class FrontendController extends Controller
                 Session::put('purchasedPackage',$purchaseList);
             } else {
                 Session::forget('purchasedPackage');
+            }
+        }
+    }
+
+    function updateJadhaham(Request $request) {
+        if ($request->hasFile('jadhaham')) {
+            $user = Auth::guard('user')->user();
+            $member = MemberProfile::where('member_id',$user->id)->first();
+            $old_jadhaham = $member->jadhaham;
+            $path = 'assets'.DIRECTORY_SEPARATOR.'jadhahamimages'.DIRECTORY_SEPARATOR;
+            if (!file_exists($path)) {
+                mkdir($path);
+            }
+            $newFileName = 'jadhaham-'.$user->id.'-'.time().'.'.$request->file('jadhaham')->extension();
+            $file_ext = $request->file('jadhaham')->extension();
+            if (!in_array($file_ext,array('png','jpg','jpeg','gif','pdf','bmp'))) {
+                return redirect(App::getLocale().'/profile')->with('error_message','Kindly upload with valid file');
+            }
+            if ($request->file('jadhaham')->move($path, $newFileName)) {
+                $member->jadhaham = $newFileName;
+                $member->save();
+                if ($old_jadhaham && file_exists($path.$old_jadhaham)) {
+                    unlink($path.$old_jadhaham);
+                }
+                return redirect(App::getLocale().'/profile');
             }
         }
     }

@@ -37,5 +37,6 @@ Route::group(array('prefix' => '{locale?}'), function() {
   Route::post('sendInterest','FrontendController@sendInterest');
   Route::get('selectPackage','FrontendController@upgrade');
   Route::post('purchase','FrontendController@purchase');
+  Route::post('updateJadhaham','FrontendController@updateJadhaham');
 });
 

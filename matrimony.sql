@@ -527,3 +527,5 @@ CREATE TABLE IF NOT EXISTS `purchase_list` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `member_profile` ADD `jadhaham` VARCHAR(1000) NOT NULL AFTER `complexion`;

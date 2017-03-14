@@ -445,6 +445,7 @@ class AdminController extends Controller
 
     function addLocation(Request $request) {
         $requiredFields = array('country','state','district');
+        $countries = \DB::table('countries')->lists('country_name','country_name');
         if ($request->isMethod('post')) {
             if ($this->validateFields($request,$requiredFields)) {
                 $country = ucfirst(trim($request->country));
@@ -472,11 +473,12 @@ class AdminController extends Controller
                 $request->{$field} = '';
             }
         }
-        return view('admin.Locations.add', array('request'=>$request));
+        return view('admin.Locations.add', array('request'=>$request,'countries'=>$countries));
     }
 
     function editLocation(Request $request, $id) {
         $requiredFields = array('country','state','district');
+        $countries = \DB::table('countries')->lists('country_name','country_name');
         $location = Location::where('id',$id)->first();
         if (!$location) {
             return response(404);
@@ -507,7 +509,7 @@ class AdminController extends Controller
                 $request->{$field} = $location->{$field};
             }
         }
-        return view('admin.Locations.edit', array('request'=>$request));
+        return view('admin.Locations.edit', array('request'=>$request, 'countries'=>$countries));
     }
 
     function deleteLocation($id) {

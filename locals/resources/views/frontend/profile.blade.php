@@ -81,7 +81,7 @@
          <div id="myTabContent" class="tab-content">
           <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
             <div class="tab_box">
-              <h1>Personal detail <i class="fa fa-edit" onclick="toggleForm('profile-text-area','profile-text-area-form')" style="cursor:pointer;"></i></h1>
+              <h1>Personal detail &nbsp;<i class="fa fa-edit text-primary" onclick="toggleForm('profile-text-area','profile-text-area-form')" style="cursor:pointer;"></i></h1>
               <div id="profile-text-area">
                 <span id="about_myself_label">{{$profile->about_myself}}</span>
               </div>
@@ -92,6 +92,7 @@
                 <button onclick="toggleForm('profile-text-area-form','profile-text-area')" class="btn_1 submit">Cancel</button>
               </form>
             </div>
+            @include('frontend.profileform.jadhaham_information')
             @include('frontend.profileform.basic_information')
             @include('frontend.profileform.religious_information')
             @include('frontend.profileform.education_information')
@@ -138,19 +139,21 @@
 
 @section('script')
 <script>
-$('.blink').each(function() {
-    var elem = $(this);
-    $(this).css('color','#ff7700');
-    /*$(this).css('color','white');
-    $(this).css('border-radius','4px');
-    $(this).css('padding','5px');*/
-    setInterval(function() {
-        if (elem.css('visibility') == 'hidden') {
-            elem.css('visibility', 'visible');
-        } else {
-            elem.css('visibility', 'hidden');
-        }    
-    }, 500);
+$(document).ready(function(){
+  $('.blink').each(function() {
+      var elem = $(this);
+      $(this).css('color','#ff7700');
+      setInterval(function() {
+          if (elem.css('visibility') == 'hidden') {
+              elem.css('visibility', 'visible');
+          } else {
+              elem.css('visibility', 'hidden');
+          }    
+      }, 500);
+  });
+  $('.fa-edit').before('&nbsp;&nbsp;');
+  $('.fa-edit').css('color','#ffa417');
+  $('.fa-edit').html(' Edit');
 });
 </script>
 @endsection

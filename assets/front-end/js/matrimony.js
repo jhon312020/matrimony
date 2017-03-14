@@ -173,3 +173,9 @@ function displayAlert(title, message) {
   $('#alertModal').find('.modal-body p').html(message);
   $('#alertModal').modal('show');
 }
+
+function showImageModal(imageId) {
+  image = $('#'+imageId).attr('src');
+  $('#imageModal').find('img').attr('src',image);
+  $('#imageModal').modal('show');
+}

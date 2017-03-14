@@ -2,7 +2,15 @@
   <div class="box-body">
     <div class="form-group">
       <label>Country</label>
-      <input type="text" class="form-control" name="country" value="{{$request->country}}" placeholder="Enter country"  required>
+      <select class="form-control" name="country">
+        @foreach ($countries as $country)
+          @if ($country == $request->country)
+            <option value="{{$country}}" selected>{{$country}}</option>
+          @else
+            <option value="{{$country}}">{{$country}}</option>
+          @endif
+        @endforeach
+      </select>
     </div>
     <div class="form-group">
       <label>State</label>

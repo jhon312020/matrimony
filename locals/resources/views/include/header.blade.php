@@ -20,7 +20,7 @@
                </ul>
              </nav>
            </div>
-           <a class="brand" href="{{asset(App::getLocale())}}"><!-- <img src="{{asset('assets/front-end/images/logo.png')}}" alt="logo"> --><i style="color:white;font-size:34px;">Tamil Mudhaliyar Matrimony</i></a>
+           <a class="brand" href="{{asset(App::getLocale())}}"><!-- <img src="{{asset('assets/front-end/images/logo.png')}}" alt="logo"> --><i style="color:white;font-size:34px;">Tamil Mudaliyar Matrimony</i></a>
            <div class="pull-right">
             <nav class="navbar nav_bottom" role="navigation">
  

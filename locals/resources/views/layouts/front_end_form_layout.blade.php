@@ -57,6 +57,21 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div id="imageModal" class="modal fade" role="dialog">
+    <div class="modal-dialog  modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content" style="background:transparent">
+        <div class="modal-header" style="border:none;">
+          <button type="button" class="close" data-dismiss="modal" style="color:black">&times;</button>
+        </div>
+        <div class="modal-body">
+          <img style="width:100%;" src="" style="display:block;">
+        </div>
+      </div>
+    </div>
+  </div>
 @yield('script')
 </body>
 </html>

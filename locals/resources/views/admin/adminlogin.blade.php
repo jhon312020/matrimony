@@ -33,7 +33,7 @@
           <span class="logo-lg"> <img src="{{asset('assets/images/logo.png')}}"/ ></span>
       </div><!-- /.login-logo -->
       <div class="login-logo">
-          <span class="logo-lg" style="color:white"><h2>Tamil Mudhaliyar Matrimony</h2></span>
+          <span class="logo-lg" style="color:white"><h2>Tamil Mudaliyar Matrimony</h2></span>
       </div>
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
