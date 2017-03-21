@@ -61,8 +61,10 @@
                     <li><a href="{{asset('en/changeLanguage/'.App::getLocale())}}">{{trans('messages.English')}}</a></li>
                   </ul>
                 </li>
+                @if(!Auth::guard('user')->check())
                 <li><a href="{{asset(App::getLocale().'/aboutUs')}}">{{trans('messages.About Us')}}</a></li>
                 <li><a href="{{asset(App::getLocale().'/contactUs')}}">{{trans('messages.Contact Us')}}</a></li>
+                @endif
                 @if(Auth::guard('user')->check())
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -101,6 +103,8 @@
                         <li><a href="{{asset(App::getLocale().'/selectPackage')}}">{{trans('messages.Premium')}}</a></li>
                       @endif
                       <li><a href="{{asset(App::getLocale().'/changePassword')}}">{{trans('messages.Change Password')}}</a></li>
+                      <li><a href="{{asset(App::getLocale().'/aboutUs')}}">{{trans('messages.About Us')}}</a></li>
+                      <li><a href="{{asset(App::getLocale().'/contactUs')}}">{{trans('messages.Contact Us')}}</a></li>
                       <li><a href="{{asset(App::getLocale().'/logout')}}">{{trans('messages.Logout')}}</a></li>
                     </ul>
                   </li>

@@ -10,7 +10,7 @@
       @foreach ($images as $image)
         @if ($image != '.' && $image !='..')
           <li>
-            <img style="width:100%;height:450px;" src="{{asset('assets/front-end/images/homeslider/'.$image)}}" alt=""/>
+            <img style="width:100%;min-height:450px;" src="{{asset('assets/front-end/images/homeslider/'.$image)}}" alt=""/>
           </li>
         @endif
       @endforeach
@@ -193,9 +193,6 @@
   <link href="{{asset('assets/front-end/css/flexslider.css')}}" rel='stylesheet' type='text/css' />
   <script defer src="{{asset('assets/front-end/js/jquery.flexslider.js')}}"></script>
   <script type="text/javascript">
-  /*$(function(){
-    SyntaxHighlighter.all();
-  });*/
   $(window).load(function(){
     $('.homeslider').flexslider({
     animation: "slide",
